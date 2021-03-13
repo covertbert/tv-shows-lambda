@@ -10,6 +10,8 @@
     "watch": "tsc -w",
     "test": "jest",
     "cdk": "cdk",
+    "lambda:build": "tsc",
+    "lambda:deploy": "cdk deploy",
     "prettier:check": "prettier --check \"**/*.*\"",
     "prettier:fix": "prettier --write \"**/*.*\"",
     "lint": "eslint --ignore-path .gitignore . --ext ts --ext tsx --ext js"
@@ -34,6 +36,7 @@
   },
   "dependencies": {
     "@aws-cdk/core": "1.93.0",
+    "got": "^11.8.2",
     "source-map-support": "^0.5.19"
   }
 }
