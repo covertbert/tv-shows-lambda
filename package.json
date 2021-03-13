@@ -1,6 +1,7 @@
 {
   "name": "tv-shows-lambda",
   "version": "0.1.0",
+  "license": "MIT",
   "bin": {
     "tv-shows-lambda": "bin/tv-shows-lambda.js"
   },
