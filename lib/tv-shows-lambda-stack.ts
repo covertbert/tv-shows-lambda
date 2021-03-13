@@ -1,9 +1,14 @@
-import * as cdk from '@aws-cdk/core';
+import * as cdk from '@aws-cdk/core'
+import { Function, Runtime, Code } from '@aws-cdk/aws-lambda'
 
 export class TvShowsLambdaStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
-    super(scope, id, props);
+  constructor(scope: cdk.App, id: string, props?: cdk.StackProps) {
+    super(scope, id, props)
 
-    // The code that defines your stack goes here
+    new Function(this, 'GetMoviesHandler', {
+      runtime: Runtime.NODEJS_12_X,
+      code: Code.fromAsset('lambda'),
+      handler: 'get.handler',
+    })
   }
 }
