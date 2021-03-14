@@ -1,9 +1,9 @@
 import got from 'got'
+import { differenceInDays, parseISO } from 'date-fns'
 
 import { Shows, ShowsWithDetails } from '../types'
 
 type GetShowsWithDetails = (tvShows: Shows, baseURL: string, apiKey: string) => ShowsWithDetails
-
 export const getShowsWithDetails: GetShowsWithDetails = (tvShows, baseURL, apiKey) =>
   Promise.all(
     tvShows.map(async movie => {
@@ -18,5 +18,5 @@ export const getShowsWithDetails: GetShowsWithDetails = (tvShows, baseURL, apiKe
   )
 
 type HasNewEpisode = (input: string) => boolean
-
-export const hasNewEpisode: HasNewEpisode = input => true
+export const hasNewEpisode: HasNewEpisode = input =>
+  differenceInDays(Date.now(), parseISO(input)) <= 7
