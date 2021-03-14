@@ -10,6 +10,7 @@
     "watch": "tsc -w",
     "test": "jest",
     "cdk": "cdk",
+    "tsc": "tsc -p tsconfig.json --noEmit",
     "lambda:build": "esbuild lambda/handlers/get.ts --bundle --outfile=dist/get.js --platform=node",
     "lambda:deploy": "cdk deploy",
     "prettier:check": "prettier --check \"**/*.*\"",

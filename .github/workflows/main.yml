@@ -1,0 +1,95 @@
+name: Build/test/deploy
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  run-quality-checks:
+    name: 📋  Run quality checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Restore node_modules from cache
+        id: cache-node-modules
+        uses: actions/cache@v2.1.4
+        with:
+          path: node_modules
+          key: v1-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+
+      - name: Install NPM packages
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
+        run: yarn install --frozen-lockfile
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GHP_TOKEN }}
+
+      - name: Prettier
+        run: yarn prettier:check
+
+      - name: Run linters
+        run: yarn lint
+
+      - name: Run type check
+        run: yarn tsc
+
+  run-tests:
+    name: 🧪  Run tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Restore node_modules from cache
+        id: cache-node-modules
+        uses: actions/cache@v2.1.4
+        with:
+          path: node_modules
+          key: v1-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+
+      - name: Install NPM packages
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
+        run: yarn install --frozen-lockfile
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GHP_TOKEN }}
+
+      - name: Run all tests
+        run: yarn test
+
+  deploy:
+    name: 🚢  Deploy
+    needs: [run-tests, run-quality-checks]
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.event.ref == 'refs/heads/master') }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Restore node_modules from cache
+        id: cache-node-modules
+        uses: actions/cache@v2.1.4
+        with:
+          path: node_modules
+          key: v1-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+
+      - name: Install NPM packages
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
+        run: yarn install --frozen-lockfile
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GHP_TOKEN }}
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-1
+
+      - name: Deploy
+        run: yarn lambda:deploy
