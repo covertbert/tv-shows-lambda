@@ -1,17 +1,22 @@
 import got from 'got'
 
+import { Shows, ShowsWithDetails } from '../types'
+
 type GetShowsWithDetails = (
-  tvShows: TVShows.Shows,
+  tvShows: Shows,
   baseURL: string,
   apiKey: string,
-) => TVShows.ShowsWithDetails
+) => ShowsWithDetails | Error
 
 export const getShowsWithDetails: GetShowsWithDetails = (tvShows, baseURL, apiKey) =>
   Promise.all(
     tvShows.map(async movie => {
-      const { body } = await got(`${baseURL}/${movie.id}?api_key=${apiKey}`)
-      const movieDetails: { last_air_date: string } = JSON.parse(body)
-
-      return { name: movie.name, lastAirDate: movieDetails.last_air_date }
+      try {
+        const response = await got(`${baseURL}/${movie.id}?api_key=${apiKey}`)
+        const movieDetails: { last_air_date: string } = JSON.parse(response.body)
+        return { name: movie.name, lastAirDate: movieDetails.last_air_date }
+      } catch (error) {
+        throw Error(error)
+      }
     }),
   )
