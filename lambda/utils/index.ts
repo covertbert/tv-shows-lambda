@@ -16,3 +16,7 @@ export const getShowsWithDetails: GetShowsWithDetails = (tvShows, baseURL, apiKe
       }
     }),
   )
+
+type HasNewEpisode = (input: string) => boolean
+
+export const hasNewEpisode: HasNewEpisode = input => true

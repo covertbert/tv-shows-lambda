@@ -7,9 +7,10 @@ jest.mock('../utils', () => ({
   getShowsWithDetails: jest.fn(() => [
     {
       name: 'Mr Bean',
-      lastAirDate: new Date(),
+      lastAirDate: '2012-03-23',
     },
   ]),
+  hasNewEpisode: jest.fn(() => true),
 }))
 
 describe('handler', () => {

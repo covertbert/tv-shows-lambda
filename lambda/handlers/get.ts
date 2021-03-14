@@ -1,9 +1,9 @@
-import { getShowsWithDetails } from '../utils'
+import { getShowsWithDetails, hasNewEpisode } from '../utils'
 import { TV_SHOWS, BASE_URL } from '../constants'
 
-const hasNewEpisode = (input: string) => true
+type Handler = () => Promise<void>
 
-export const handler: () => Promise<void> = async () => {
+export const handler: Handler = async () => {
   const apiKey = process.env.DATABASE_API_KEY
 
   if (!apiKey) {
