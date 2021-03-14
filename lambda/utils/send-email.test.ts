@@ -17,7 +17,7 @@ describe('sendEmail', () => {
     await sendEmail(expectedShows)
 
     expect(ses.sendEmail).toHaveBeenCalledWith({
-      Destination: { ToAddresses: ['success@simulator.amazonses.com'] },
+      Destination: { ToAddresses: ['blackmanrgh@gmail.com'] },
       Message: {
         Body: { Text: { Data: JSON.stringify(expectedShows) } },
         Subject: { Data: 'Test Email' },

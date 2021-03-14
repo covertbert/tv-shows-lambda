@@ -15,7 +15,7 @@ export const sendEmail: SendEmail = shows => {
       Subject: { Data: 'Test Email' },
     },
     Destination: {
-      ToAddresses: ['success@simulator.amazonses.com'],
+      ToAddresses: ['blackmanrgh@gmail.com'],
     },
   }
 
