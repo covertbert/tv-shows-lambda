@@ -103,4 +103,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deploy
-        run: yarn lambda:deploy
+        run: |
+          yarn lambda:deploy --context apiKey=${{ secrets.DATABASE_API_KEY }}
