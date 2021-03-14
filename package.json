@@ -39,6 +39,7 @@
   },
   "dependencies": {
     "@aws-cdk/core": "1.93.0",
+    "aws-sdk": "^2.863.0",
     "date-fns": "^2.19.0",
     "got": "^11.8.2",
     "source-map-support": "^0.5.19"
