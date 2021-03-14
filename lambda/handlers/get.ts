@@ -11,11 +11,13 @@ export const handler: Handler = async () => {
   }
 
   try {
-    const showsWithDetails = await getShowsWithDetails(TV_SHOWS, BASE_URL, apiKey)
+    const showsWithTheirDetails = await getShowsWithDetails(TV_SHOWS, BASE_URL, apiKey)
+    const showsWithRecentEpisodes = showsWithTheirDetails.filter(show =>
+      hasNewEpisode(show.lastAirDate),
+    )
 
-    const filtered = showsWithDetails.filter(show => hasNewEpisode(show.lastAirDate))
-
-    console.log('HERRO', filtered)
+    // TODO Send email
+    console.log('HERRO', showsWithRecentEpisodes)
   } catch (error) {
     throw new Error(error)
   }
