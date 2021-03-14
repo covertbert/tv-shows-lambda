@@ -97,5 +97,10 @@ jobs:
       - name: Build
         run: yarn lambda:build
 
+      - name: Block concurrent runs
+        uses: softprops/turnstyle@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Deploy
         run: yarn lambda:deploy
