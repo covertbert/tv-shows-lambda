@@ -16,9 +16,7 @@ export const handler: Handler = async () => {
       hasNewEpisode(show.lastAirDate),
     )
 
-    sendEmail
-    // TODO Send email
-    console.log('HERRO', showsWithRecentEpisodes)
+    await sendEmail(showsWithRecentEpisodes)
   } catch (error) {
     throw new Error(error)
   }

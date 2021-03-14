@@ -11,6 +11,7 @@ jest.mock('../utils', () => ({
     },
   ]),
   hasNewEpisode: jest.fn(() => true),
+  sendEmail: jest.fn(),
 }))
 
 describe('handler', () => {

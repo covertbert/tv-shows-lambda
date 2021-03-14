@@ -1,6 +1,6 @@
 import { Stack, App, StackProps } from '@aws-cdk/core'
 import { Function, Runtime, Code } from '@aws-cdk/aws-lambda'
-import { Role, ServicePrincipal, PolicyStatement } from '@aws-cdk/aws-iam'
+import { Role, ServicePrincipal, PolicyStatement, ManagedPolicy } from '@aws-cdk/aws-iam'
 
 interface ExtendedStackProps extends StackProps {
   apiKey: string
@@ -12,22 +12,26 @@ export class TvShowsLambdaStack extends Stack {
 
     const { apiKey } = props
 
-    const executionRole = new Role(this, 'ExecutionRole', {
+    const lambdaRole = new Role(this, 'ExecutionRole', {
       assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
     })
 
-    executionRole.addToPolicy(
+    lambdaRole.addToPolicy(
       new PolicyStatement({
         resources: ['*'],
         actions: ['ses:SendEmail', 'ses:SendRawEmail'],
       }),
     )
 
+    lambdaRole.addManagedPolicy(
+      ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole'),
+    )
+
     new Function(this, 'GetMoviesHandler', {
       runtime: Runtime.NODEJS_12_X,
       code: Code.fromAsset('dist'),
       handler: 'get.handler',
-      role: executionRole,
+      role: lambdaRole,
       environment: {
         DATABASE_API_KEY: apiKey,
       },
