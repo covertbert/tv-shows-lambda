@@ -1,0 +1,13 @@
+version: 1
+
+merge:
+  trigger:
+    labels: ['dependencies']
+  method: squash
+  required_statuses:
+    - '📋  Run quality checks'
+    - '🧪  Run tests'
+
+update:
+  trigger:
+    labels: ['dependencies']
