@@ -1,9 +1,16 @@
 import { handler } from './get'
-import { getShowsWithDetails } from './utils'
+import { getShowsWithDetails } from '../utils'
 
-import { TV_SHOWS, BASE_URL } from './constants'
+import { TV_SHOWS, BASE_URL } from '../constants'
 
-jest.mock('./utils')
+jest.mock('../utils', () => ({
+  getShowsWithDetails: jest.fn(() => [
+    {
+      name: 'Mr Bean',
+      lastAirDate: new Date(),
+    },
+  ]),
+}))
 
 describe('handler', () => {
   it('throws an error when an API key is missing', async () => {

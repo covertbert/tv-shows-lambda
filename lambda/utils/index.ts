@@ -2,11 +2,7 @@ import got from 'got'
 
 import { Shows, ShowsWithDetails } from '../types'
 
-type GetShowsWithDetails = (
-  tvShows: Shows,
-  baseURL: string,
-  apiKey: string,
-) => ShowsWithDetails | Error
+type GetShowsWithDetails = (tvShows: Shows, baseURL: string, apiKey: string) => ShowsWithDetails
 
 export const getShowsWithDetails: GetShowsWithDetails = (tvShows, baseURL, apiKey) =>
   Promise.all(
