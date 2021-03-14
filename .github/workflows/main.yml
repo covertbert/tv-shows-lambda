@@ -3,9 +3,9 @@ name: Build/test/deploy
 on:
   workflow_dispatch:
   push:
-    branches: [master]
+    branches: [main]
   pull_request:
-    branches: [master]
+    branches: [main]
 
 jobs:
   run-quality-checks:
@@ -59,6 +59,9 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GHP_TOKEN }}
 
+      - name: Build
+        run: yarn lambda:build
+
       - name: Run all tests
         run: yarn test
 
@@ -66,7 +69,7 @@ jobs:
     name: 🚢  Deploy
     needs: [run-tests, run-quality-checks]
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.event.ref == 'refs/heads/master') }}
+    if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.event.ref == 'refs/heads/main') }}
 
     steps:
       - uses: actions/checkout@v2
@@ -90,6 +93,9 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-west-1
+
+      - name: Build
+        run: yarn lambda:build
 
       - name: Deploy
         run: yarn lambda:deploy
