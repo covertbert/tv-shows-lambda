@@ -1,25 +1,19 @@
-// import { SES } from 'aws-sdk'
+import { SES } from 'aws-sdk'
 
-// import { sendEmail } from '.'
-
-// jest.mock('aws-sdk', () => ({
-//   sendEmail: jest.fn().mockReturnValue({
-//     promise: jest.fn().mockResolvedValue({}),
-//   }),
-// }))
-
-// const sesMock = (SES as unknown) as jest.Mock
-
-// afterEach(() => {
-//   sesMock.mockClear()
-// })
+import { sendEmail } from '.'
 
 describe('sendEmail', () => {
-  it('sends emails', async () => {
-    // await sendEmail([{ name: 'hello', lastAirDate: '1234' }])
+  it('calls SES send email', async () => {
+    SES.prototype.sendEmail = jest.fn().mockReturnValue({
+      promise: jest.fn().mockResolvedValue({
+        ResponseMetadata: { RequestId: 'abc-123' },
+        MessageId: 'cba-321',
+      }),
+    })
 
-    // expect(SES).toHaveBeenCalled()
+    const ses = new SES()
+    await sendEmail([{ name: 'hello', lastAirDate: '1234' }])
 
-    expect(2 > 1)
+    expect(ses.sendEmail).toHaveBeenCalled()
   })
 })
