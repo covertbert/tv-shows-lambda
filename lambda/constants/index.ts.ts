@@ -1,4 +1,4 @@
-import { Shows } from './types'
+import { Shows } from '../types'
 
 export const BASE_URL = 'https://api.themoviedb.org/3/tv'
 
