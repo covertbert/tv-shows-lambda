@@ -1,16 +1,14 @@
 import { SES } from 'aws-sdk'
 
-import { ShowsWithDetails } from '../types'
-
-type SendEmail = (shows: ShowsWithDetails) => Promise<SES.SendEmailResponse>
-export const sendEmail: SendEmail = shows => {
+type SendEmail = (messageBody: string) => Promise<SES.SendEmailResponse>
+export const sendEmail: SendEmail = messageBody => {
   const ses = new SES({ region: 'us-east-1' })
 
   const params: SES.Types.SendEmailRequest = {
     Source: 'info@bertie.dev',
     Message: {
       Body: {
-        Text: { Data: JSON.stringify(shows) },
+        Text: { Data: messageBody },
       },
       Subject: { Data: 'Test Email' },
     },

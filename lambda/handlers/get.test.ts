@@ -1,5 +1,5 @@
 import { handler } from './get'
-import { getShowsWithDetails, hasNewEpisode, sendEmail } from '../utils'
+import { getShowsWithDetails, hasNewEpisode, sendEmail, generateMessageBody } from '../utils'
 
 import { TV_SHOWS, BASE_URL } from '../constants'
 
@@ -9,6 +9,7 @@ jest.mock('../utils', () => ({
   getShowsWithDetails: jest.fn(() => [mockTvShow]),
   hasNewEpisode: jest.fn(() => true),
   sendEmail: jest.fn(),
+  generateMessageBody: jest.fn(),
 }))
 
 describe('handler', () => {
@@ -39,6 +40,14 @@ describe('handler', () => {
 
     await handler()
 
-    expect(sendEmail).toBeCalledWith([mockTvShow])
+    expect(sendEmail).toBeCalledWith(generateMessageBody([mockTvShow]))
+  })
+
+  it('calls generateMessageBody with correct inputs', async () => {
+    process.env.DATABASE_API_KEY = '123456'
+
+    await handler()
+
+    expect(generateMessageBody).toBeCalledWith([mockTvShow])
   })
 })

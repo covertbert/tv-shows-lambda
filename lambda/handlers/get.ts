@@ -1,4 +1,4 @@
-import { getShowsWithDetails, hasNewEpisode, sendEmail } from '../utils'
+import { getShowsWithDetails, hasNewEpisode, sendEmail, generateMessageBody } from '../utils'
 import { TV_SHOWS, BASE_URL } from '../constants'
 
 type Handler = () => Promise<void>
@@ -16,7 +16,7 @@ export const handler: Handler = async () => {
       hasNewEpisode(show.lastAirDate),
     )
 
-    await sendEmail(showsWithRecentEpisodes)
+    await sendEmail(generateMessageBody(showsWithRecentEpisodes))
   } catch (error) {
     throw new Error(error)
   }

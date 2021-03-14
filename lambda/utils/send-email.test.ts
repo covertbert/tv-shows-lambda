@@ -11,15 +11,15 @@ describe('sendEmail', () => {
       }),
     })
 
-    const expectedShows = [{ name: 'hello', lastAirDate: '1234' }]
+    const expectedMessageBody = 'Hello there'
 
     const ses = new SES()
-    await sendEmail(expectedShows)
+    await sendEmail(expectedMessageBody)
 
     expect(ses.sendEmail).toHaveBeenCalledWith({
       Destination: { ToAddresses: ['blackmanrgh@gmail.com'] },
       Message: {
-        Body: { Text: { Data: JSON.stringify(expectedShows) } },
+        Body: { Text: { Data: expectedMessageBody } },
         Subject: { Data: 'Test Email' },
       },
       Source: 'info@bertie.dev',
