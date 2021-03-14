@@ -1,4 +1,4 @@
-import { getShowsWithDetails, hasNewEpisode } from '../utils'
+import { getShowsWithDetails, hasNewEpisode, sendEmail } from '../utils'
 import { TV_SHOWS, BASE_URL } from '../constants'
 
 type Handler = () => Promise<void>
@@ -16,6 +16,7 @@ export const handler: Handler = async () => {
       hasNewEpisode(show.lastAirDate),
     )
 
+    sendEmail
     // TODO Send email
     console.log('HERRO', showsWithRecentEpisodes)
   } catch (error) {

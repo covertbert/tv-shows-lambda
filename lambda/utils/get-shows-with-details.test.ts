@@ -1,5 +1,5 @@
 import got from 'got'
-import { getShowsWithDetails, hasNewEpisode } from '.'
+import { getShowsWithDetails } from '.'
 
 jest.mock('got', () => ({
   __esModule: true,
@@ -23,17 +23,5 @@ describe('getShowsWithDetails', () => {
     const expectedResult = [{ name: tvShows[0].name, lastAirDate: '1234' }]
 
     expect(await getShowsWithDetails(tvShows, baseURL, apiKey)).toEqual(expectedResult)
-  })
-})
-
-describe('hasNewEpisode', () => {
-  it('returns true when input is less than or equal to 7 days ago', () => {
-    const mockDate = new Date()
-
-    expect(hasNewEpisode(mockDate.toISOString().split('T')[0])).toEqual(true)
-  })
-
-  it('returns false when input is more than 7 days ago', () => {
-    expect(hasNewEpisode('2012-03-29')).toEqual(false)
   })
 })
