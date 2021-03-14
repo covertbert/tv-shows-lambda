@@ -1,27 +1,7 @@
-import got from 'got'
+import { getShowsWithDetails } from './utils'
+import { TV_SHOWS, BASE_URL } from './constants'
 
-const baseURL = 'https://api.themoviedb.org/3/tv'
-
-const tvShows: { name: string; id: string }[] = [
-  {
-    name: 'succession',
-    id: '76331',
-  },
-]
-
-type GetShowsWithDetails = (apiKey: string) => TVShows.ShowsWithDetails
-
-const getShowsWithDetails: GetShowsWithDetails = apiKey =>
-  Promise.all(
-    tvShows.map(async movie => {
-      const { body } = await got(`${baseURL}/${movie.id}?api_key=${apiKey}`)
-      const movieDetails: TVShows.APIResponse = JSON.parse(body)
-
-      return { name: movie.name, lastAirDate: movieDetails.last_air_date }
-    }),
-  )
-
-export const handler: TVShows.Handler = async function () {
+export const handler: () => Promise<void> = async function () {
   const apiKey = process.env.DATABASE_API_KEY
 
   if (!apiKey) {
@@ -29,7 +9,7 @@ export const handler: TVShows.Handler = async function () {
   }
 
   try {
-    console.log('HELLO', await getShowsWithDetails(apiKey))
+    console.log('HELLO', await getShowsWithDetails(TV_SHOWS, BASE_URL, apiKey))
   } catch (error) {
     throw new Error(error)
   }

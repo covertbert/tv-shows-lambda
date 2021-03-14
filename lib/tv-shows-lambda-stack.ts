@@ -7,7 +7,7 @@ export class TvShowsLambdaStack extends cdk.Stack {
 
     new Function(this, 'GetMoviesHandler', {
       runtime: Runtime.NODEJS_12_X,
-      code: Code.fromAsset('lambda'),
+      code: Code.fromAsset('dist'),
       handler: 'get.handler',
     })
   }
