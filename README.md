@@ -1,14 +1,5 @@
-# Welcome to your CDK TypeScript project!
+# TV Show updates lambda
 
-This is a blank project for TypeScript development with CDK.
+[![Build/test/deploy](https://github.com/covertbert/tv-shows-lambda/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/covertbert/tv-shows-lambda/actions/workflows/main.yml)
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
-
-## Useful commands
-
-- `npm run build` compile typescript to js
-- `npm run watch` watch for changes and compile
-- `npm run test` perform the jest unit tests
-- `cdk deploy` deploy this stack to your default AWS account/region
-- `cdk diff` compare deployed stack with current state
-- `cdk synth` emits the synthesized CloudFormation template
+This is a CDK application containing a lambda that notifies me when there are new episodes of my favourite TV shows. I'm sure this functionality exists elsewhere but it was an excuse to create a TypeScript lambda using the CDK.
