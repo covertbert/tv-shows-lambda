@@ -1,7 +1,7 @@
 import { hasNewEpisode } from '.'
 
 describe('hasNewEpisode', () => {
-  it('returns true when input is less than or equal to 7 days ago', () => {
+  it('returns true when input is less than or equal to 1 month ago', () => {
     const mockDate = new Date()
 
     expect(hasNewEpisode(mockDate.toISOString().split('T')[0])).toEqual(true)
