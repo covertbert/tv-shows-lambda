@@ -1,6 +1,8 @@
 import { Stack, App, StackProps } from '@aws-cdk/core'
 import { Function, Runtime, Code } from '@aws-cdk/aws-lambda'
 import { Role, ServicePrincipal, PolicyStatement, ManagedPolicy } from '@aws-cdk/aws-iam'
+import { Rule, Schedule } from '@aws-cdk/aws-events'
+import { LambdaFunction } from '@aws-cdk/aws-events-targets'
 
 interface ExtendedStackProps extends StackProps {
   apiKey: string
@@ -27,7 +29,7 @@ export class TvShowsLambdaStack extends Stack {
       ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole'),
     )
 
-    new Function(this, 'GetMoviesHandler', {
+    const lambda = new Function(this, 'GetMoviesHandler', {
       runtime: Runtime.NODEJS_12_X,
       code: Code.fromAsset('dist'),
       handler: 'get.handler',
@@ -35,6 +37,13 @@ export class TvShowsLambdaStack extends Stack {
       environment: {
         DATABASE_API_KEY: apiKey,
       },
+    })
+
+    const lambdaTaskTarget = new LambdaFunction(lambda)
+
+    new Rule(this, 'ScheduleLambdaRule', {
+      schedule: Schedule.cron({}),
+      targets: [lambdaTaskTarget],
     })
   }
 }
