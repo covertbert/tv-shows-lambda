@@ -3,7 +3,7 @@ import { generateMessageBody } from '.'
 describe('generateMessageBody', () => {
   it('returns no results text when given an empty array', () => {
     expect(generateMessageBody([])).toEqual(
-      'There are currently no TV Shows with any new episodes.',
+      'There are currently no TV Shows that you watch with any new episodes.',
     )
   })
 

@@ -5,7 +5,7 @@ export const generateMessageBody: GenerateMessageBody = shows => {
   const someShows = shows
 
   if (!someShows || someShows.length < 1) {
-    return 'There are currently no TV Shows with any new episodes.'
+    return 'There are currently no TV Shows that you watch with any new episodes.'
   }
 
   if (someShows.length === 1) {
