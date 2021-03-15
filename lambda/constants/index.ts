@@ -47,4 +47,8 @@ export const TV_SHOWS: Shows = [
     name: 'Euphoria',
     id: '85552',
   },
+  {
+    name: 'Snowpiercer',
+    id: '79680',
+  },
 ]
