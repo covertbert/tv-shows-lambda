@@ -52,6 +52,14 @@ export const TV_SHOWS: Shows = [
     id: '4546',
   },
   {
+    name: 'Fleabag',
+    id: '67070',
+  },
+  {
+    name: 'Killing Eve',
+    id: '72750',
+  },
+  {
     name: 'Snowpiercer',
     id: '79680',
   },
