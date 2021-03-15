@@ -42,7 +42,7 @@ export class TvShowsLambdaStack extends Stack {
     const lambdaTaskTarget = new LambdaFunction(lambda)
 
     new Rule(this, 'ScheduleLambdaRule', {
-      schedule: Schedule.cron({}),
+      schedule: Schedule.cron({ weekDay: 'TUE' }),
       targets: [lambdaTaskTarget],
     })
   }
