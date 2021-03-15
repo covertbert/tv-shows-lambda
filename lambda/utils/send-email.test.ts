@@ -20,9 +20,9 @@ describe('sendEmail', () => {
       Destination: { ToAddresses: ['blackmanrgh@gmail.com'] },
       Message: {
         Body: { Text: { Data: expectedMessageBody } },
-        Subject: { Data: 'Test Email' },
+        Subject: { Data: 'New TV Show Episodes' },
       },
-      Source: 'info@bertie.dev',
+      Source: 'newtvshows@bertie.dev',
     })
   })
 })

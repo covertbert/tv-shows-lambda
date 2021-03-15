@@ -1,5 +1,5 @@
-import { parseISO, differenceInMonths } from 'date-fns'
+import { parseISO, differenceInDays } from 'date-fns'
 
 type HasNewEpisode = (input: string) => boolean
 export const hasNewEpisode: HasNewEpisode = input =>
-  differenceInMonths(Date.now(), parseISO(input)) <= 1
+  differenceInDays(Date.now(), parseISO(input)) <= 7

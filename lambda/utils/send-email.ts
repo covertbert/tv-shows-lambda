@@ -5,12 +5,12 @@ export const sendEmail: SendEmail = messageBody => {
   const ses = new SES({ region: 'us-east-1' })
 
   const params: SES.Types.SendEmailRequest = {
-    Source: 'info@bertie.dev',
+    Source: 'newtvshows@bertie.dev',
     Message: {
       Body: {
         Text: { Data: messageBody },
       },
-      Subject: { Data: 'Test Email' },
+      Subject: { Data: 'New TV Show Episodes' },
     },
     Destination: {
       ToAddresses: ['blackmanrgh@gmail.com'],
