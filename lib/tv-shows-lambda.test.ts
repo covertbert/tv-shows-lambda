@@ -21,7 +21,7 @@ test('TvShowsLambdaStack', () => {
   )
   expectCDK(stack).to(
     haveResourceLike('AWS::Events::Rule', {
-      ScheduleExpression: 'cron(* 10 ? * TUE *)',
+      ScheduleExpression: 'cron(30 10 ? * TUE *)',
       State: 'ENABLED',
     }),
   )
