@@ -4,9 +4,13 @@ import * as TvShowsLambda from './tv-shows-lambda-stack'
 
 test('TvShowsLambdaStack', () => {
   const apiKey = '123'
+  const recipientEmails = 'dog@cat.com'
 
   const app = new cdk.App()
-  const stack = new TvShowsLambda.TvShowsLambdaStack(app, 'MyTestStack', { apiKey })
+  const stack = new TvShowsLambda.TvShowsLambdaStack(app, 'MyTestStack', {
+    apiKey,
+    recipientEmails,
+  })
 
   expectCDK(stack).to(haveResource('AWS::IAM::Role'))
   expectCDK(stack).to(

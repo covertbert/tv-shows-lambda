@@ -13,14 +13,26 @@ jest.mock('../utils', () => ({
 }))
 
 describe('handler', () => {
+  const expectedEmail = 'dog@cat.com'
+  const expectedApiKey = '123456'
+
   it('throws an error when an API key is missing', async () => {
     await expect(async () => {
       await handler()
     }).rejects.toThrowError('Movie DB API key missing')
   })
 
+  it('throws an error when an recipient addresses are missing', async () => {
+    process.env.DATABASE_API_KEY = expectedApiKey
+
+    await expect(async () => {
+      await handler()
+    }).rejects.toThrowError('Recipient emails missing')
+  })
+
   it('calls getShowsWithDetails with correct inputs', async () => {
-    process.env.DATABASE_API_KEY = '123456'
+    process.env.DATABASE_API_KEY = expectedApiKey
+    process.env.RECIPIENT_EMAILS = expectedEmail
 
     await handler()
 
@@ -28,7 +40,8 @@ describe('handler', () => {
   })
 
   it('calls hasNewEpisode with correct inputs', async () => {
-    process.env.DATABASE_API_KEY = '123456'
+    process.env.DATABASE_API_KEY = expectedApiKey
+    process.env.RECIPIENT_EMAILS = expectedEmail
 
     await handler()
 
@@ -36,15 +49,17 @@ describe('handler', () => {
   })
 
   it('calls sendEmail with correct inputs', async () => {
-    process.env.DATABASE_API_KEY = '123456'
+    process.env.DATABASE_API_KEY = expectedApiKey
+    process.env.RECIPIENT_EMAILS = expectedEmail
 
     await handler()
 
-    expect(sendEmail).toBeCalledWith(generateMessageBody([mockTvShow]))
+    expect(sendEmail).toBeCalledWith(generateMessageBody([mockTvShow]), expectedEmail)
   })
 
   it('calls generateMessageBody with correct inputs', async () => {
-    process.env.DATABASE_API_KEY = '123456'
+    process.env.DATABASE_API_KEY = expectedApiKey
+    process.env.RECIPIENT_EMAILS = expectedEmail
 
     await handler()
 

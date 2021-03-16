@@ -12,12 +12,13 @@ describe('sendEmail', () => {
     })
 
     const expectedMessageBody = 'Hello there'
+    const expectedEmailAddresses = 'dog@cat.com'
 
     const ses = new SES()
-    await sendEmail(expectedMessageBody)
+    await sendEmail(expectedMessageBody, expectedEmailAddresses)
 
     expect(ses.sendEmail).toHaveBeenCalledWith({
-      Destination: { ToAddresses: ['blackmanrgh@gmail.com'] },
+      Destination: { ToAddresses: [expectedEmailAddresses] },
       Message: {
         Body: { Text: { Data: expectedMessageBody } },
         Subject: { Data: 'New TV Show Episodes' },

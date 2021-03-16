@@ -5,9 +5,14 @@ type Handler = () => Promise<void>
 
 export const handler: Handler = async () => {
   const apiKey = process.env.DATABASE_API_KEY
+  const recipientEmails = process.env.RECIPIENT_EMAILS
 
   if (!apiKey) {
     throw new Error('Movie DB API key missing')
+  }
+
+  if (!recipientEmails) {
+    throw new Error('Recipient emails missing')
   }
 
   try {
@@ -16,7 +21,7 @@ export const handler: Handler = async () => {
       hasNewEpisode(show.lastAirDate),
     )
 
-    await sendEmail(generateMessageBody(showsWithRecentEpisodes))
+    await sendEmail(generateMessageBody(showsWithRecentEpisodes), recipientEmails)
   } catch (error) {
     throw new Error(error)
   }

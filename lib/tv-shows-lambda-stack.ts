@@ -6,13 +6,14 @@ import { LambdaFunction } from '@aws-cdk/aws-events-targets'
 
 interface ExtendedStackProps extends StackProps {
   apiKey: string
+  recipientEmails: string
 }
 
 export class TvShowsLambdaStack extends Stack {
   constructor(scope: App, id: string, props: ExtendedStackProps) {
     super(scope, id, props)
 
-    const { apiKey } = props
+    const { apiKey, recipientEmails } = props
 
     const lambdaRole = new Role(this, 'ExecutionRole', {
       assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
@@ -36,6 +37,7 @@ export class TvShowsLambdaStack extends Stack {
       role: lambdaRole,
       environment: {
         DATABASE_API_KEY: apiKey,
+        RECIPIENT_EMAILS: recipientEmails,
       },
     })
 

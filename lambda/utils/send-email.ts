@@ -1,7 +1,7 @@
 import { SES } from 'aws-sdk'
 
-type SendEmail = (messageBody: string) => Promise<SES.SendEmailResponse>
-export const sendEmail: SendEmail = messageBody => {
+type SendEmail = (messageBody: string, recipientEmails: string) => Promise<SES.SendEmailResponse>
+export const sendEmail: SendEmail = (messageBody, recipientEmails) => {
   const ses = new SES({ region: 'us-east-1' })
 
   const params: SES.Types.SendEmailRequest = {
@@ -13,7 +13,7 @@ export const sendEmail: SendEmail = messageBody => {
       Subject: { Data: 'New TV Show Episodes' },
     },
     Destination: {
-      ToAddresses: ['blackmanrgh@gmail.com'],
+      ToAddresses: recipientEmails.split(','),
     },
   }
 
