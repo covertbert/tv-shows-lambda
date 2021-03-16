@@ -105,5 +105,5 @@ jobs:
       - name: Deploy
         run: |
           yarn lambda:deploy \ 
-            --context apiKey=${{ secrets.DATABASE_API_KEY }}
+            --context apiKey=${{ secrets.DATABASE_API_KEY }} \
             --context recipientEmails=${{ secrets.RECIPIENT_EMAILS }}
