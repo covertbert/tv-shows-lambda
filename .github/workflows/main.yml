@@ -60,7 +60,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.GHP_TOKEN }}
 
       - name: Build
-        run: npx esbuild lambda/handlers/${{ matrix.stack }}.ts --bundle --outfile=dist/${{ matrix.stack }}.js --platform=node
+        run: yarn lambda:build:${{stack}}
 
       - name: Run all tests
         run: yarn test
@@ -99,7 +99,7 @@ jobs:
           aws-region: eu-west-1
 
       - name: Build
-        run: npx esbuild lambda/handlers/${{ matrix.stack }}.ts --bundle --outfile=dist/${{ matrix.stack }}.js --platform=node
+        run: yarn lambda:build:${{stack}}
 
       - name: Block concurrent runs
         uses: softprops/turnstyle@v1
