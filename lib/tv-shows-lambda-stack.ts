@@ -6,7 +6,7 @@ import { LambdaFunction } from '@aws-cdk/aws-events-targets'
 import { LambdaRestApi } from '@aws-cdk/aws-apigateway'
 import { ARecord, RecordTarget, PublicHostedZone } from '@aws-cdk/aws-route53'
 import { ApiGateway } from '@aws-cdk/aws-route53-targets'
-import { Certificate } from '@aws-cdk/aws-certificatemanager'
+import { Certificate, ValidationMethod } from '@aws-cdk/aws-certificatemanager'
 
 interface ExtendedStackProps extends StackProps {
   apiKey: string
@@ -68,13 +68,15 @@ export class TvShowsLambdaStack extends Stack {
       proxy: false,
     })
 
+    const certificate = new Certificate(this, 'bertie-blackman', {
+      domainName: 'bertie.dev',
+      subjectAlternativeNames: ['*.bertie.dev'],
+      validationMethod: ValidationMethod.DNS,
+    })
+
     api.addDomainName('DomainName', {
       domainName: 'shows.bertie.dev',
-      certificate: Certificate.fromCertificateArn(
-        this,
-        'Certificate',
-        'arn:aws:acm:us-east-1:515213366596:certificate/904b7400-ca9a-4f45-8f77-91deccfd79c1',
-      ),
+      certificate: certificate,
     })
 
     const shows = api.root.addResource('shows')
