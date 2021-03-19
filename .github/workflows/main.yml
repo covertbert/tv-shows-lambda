@@ -60,7 +60,8 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.GHP_TOKEN }}
 
       - name: Build
-        run: yarn lambda:build:${{stack}}
+        run: |
+          yarn lambda:build:email
 
       - name: Run all tests
         run: yarn test
@@ -99,7 +100,7 @@ jobs:
           aws-region: eu-west-1
 
       - name: Build
-        run: yarn lambda:build:${{stack}}
+        run: yarn lambda:build:${{ matrix.stack}}
 
       - name: Block concurrent runs
         uses: softprops/turnstyle@v1
