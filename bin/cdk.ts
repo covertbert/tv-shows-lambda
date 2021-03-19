@@ -22,5 +22,6 @@ new TvShowsLambdaStack(app, 'TvShowsLambdaStack', {
   recipientEmails,
   env: {
     region: 'eu-west-2',
+    account: '515213366596',
   },
 })
