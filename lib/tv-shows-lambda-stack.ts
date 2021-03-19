@@ -3,6 +3,7 @@ import { Function, Runtime, Code } from '@aws-cdk/aws-lambda'
 import { Role, ServicePrincipal, PolicyStatement, ManagedPolicy } from '@aws-cdk/aws-iam'
 import { Rule, Schedule } from '@aws-cdk/aws-events'
 import { LambdaFunction } from '@aws-cdk/aws-events-targets'
+import { LambdaRestApi } from '@aws-cdk/aws-apigateway'
 
 interface ExtendedStackProps extends StackProps {
   apiKey: string
@@ -41,7 +42,14 @@ export class TvShowsLambdaStack extends Stack {
       },
     })
 
-    new Function(this, 'GetMoviesHandler', {
+    const emailLambdaTaskTarget = new LambdaFunction(emailLambda)
+
+    new Rule(this, 'ScheduleLambdaRule', {
+      schedule: Schedule.cron({ weekDay: 'TUE', hour: '10', minute: '30' }),
+      targets: [emailLambdaTaskTarget],
+    })
+
+    const getLambda = new Function(this, 'GetMoviesHandler', {
       runtime: Runtime.NODEJS_12_X,
       code: Code.fromAsset('dist'),
       handler: 'get.handler',
@@ -52,11 +60,8 @@ export class TvShowsLambdaStack extends Stack {
       },
     })
 
-    const emailLambdaTaskTarget = new LambdaFunction(emailLambda)
-
-    new Rule(this, 'ScheduleLambdaRule', {
-      schedule: Schedule.cron({ weekDay: 'TUE', hour: '10', minute: '30' }),
-      targets: [emailLambdaTaskTarget],
+    new LambdaRestApi(this, 'GetMoviesAPI', {
+      handler: getLambda,
     })
   }
 }
