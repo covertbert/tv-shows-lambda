@@ -66,10 +66,14 @@ jobs:
         run: yarn test
 
   deploy:
-    name: 🚢  Deploy
+    name: Deploy Stack '${{ matrix.stack }}' via CDK
     needs: [run-tests, run-quality-checks]
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.event.ref == 'refs/heads/main') }}
+
+    strategy:
+      matrix:
+        stack: [email]
 
     steps:
       - uses: actions/checkout@v2
@@ -95,7 +99,7 @@ jobs:
           aws-region: eu-west-1
 
       - name: Build
-        run: yarn lambda:build
+        run: yarn lambda:build --first=${{ matrix.stack }}
 
       - name: Block concurrent runs
         uses: softprops/turnstyle@v1

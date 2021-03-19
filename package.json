@@ -11,7 +11,7 @@
     "test": "jest",
     "cdk": "cdk",
     "tsc": "tsc -p tsconfig.json --noEmit",
-    "lambda:build": "esbuild lambda/handlers/email.ts --bundle --outfile=dist/get.js --platform=node",
+    "lambda:build": "esbuild lambda/handlers/email.ts --bundle --outfile=dist/$npm_config_first.js --platform=node",
     "lambda:deploy": "cdk deploy",
     "prettier:check": "prettier --check \"**/*.*\"",
     "prettier:fix": "prettier --write \"**/*.*\"",
