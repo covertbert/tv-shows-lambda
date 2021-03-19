@@ -30,7 +30,7 @@ export class TvShowsLambdaStack extends Stack {
       ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole'),
     )
 
-    const lambda = new Function(this, 'GetMoviesHandler', {
+    const emailLambda = new Function(this, 'EmailMoviesHandler', {
       runtime: Runtime.NODEJS_12_X,
       code: Code.fromAsset('dist'),
       handler: 'email.handler',
@@ -41,11 +41,22 @@ export class TvShowsLambdaStack extends Stack {
       },
     })
 
-    const lambdaTaskTarget = new LambdaFunction(lambda)
+    new Function(this, 'GetMoviesHandler', {
+      runtime: Runtime.NODEJS_12_X,
+      code: Code.fromAsset('dist'),
+      handler: 'get.handler',
+      role: lambdaRole,
+      environment: {
+        DATABASE_API_KEY: apiKey,
+        RECIPIENT_EMAILS: recipientEmails,
+      },
+    })
+
+    const emailLambdaTaskTarget = new LambdaFunction(emailLambda)
 
     new Rule(this, 'ScheduleLambdaRule', {
       schedule: Schedule.cron({ weekDay: 'TUE', hour: '10', minute: '30' }),
-      targets: [lambdaTaskTarget],
+      targets: [emailLambdaTaskTarget],
     })
   }
 }

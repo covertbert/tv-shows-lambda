@@ -23,6 +23,7 @@ module.exports = {
     'no-console': 1,
     'prefer-template': 1,
     '@typescript-eslint/no-unused-vars': 0,
+    '@typescript-eslint/no-non-null-assertion': 0,
   },
   settings: {},
 }
