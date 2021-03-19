@@ -62,6 +62,7 @@ jobs:
       - name: Build
         run: |
           yarn lambda:build:email
+          yarn lambda:build:get
 
       - name: Run all tests
         run: yarn test
@@ -74,7 +75,7 @@ jobs:
 
     strategy:
       matrix:
-        stack: [email]
+        stack: [email, get]
 
     steps:
       - uses: actions/checkout@v2
