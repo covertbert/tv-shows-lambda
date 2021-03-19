@@ -99,7 +99,7 @@ jobs:
           aws-region: eu-west-1
 
       - name: Build
-        run: yarn lambda:build --first=${{ matrix.stack }}
+        run: npx esbuild lambda/handlers/${{ matrix.stack }}.ts --bundle --outfile=dist/${{ matrix.stack }}.js --platform=node
 
       - name: Block concurrent runs
         uses: softprops/turnstyle@v1
