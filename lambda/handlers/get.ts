@@ -6,11 +6,11 @@ import { TV_SHOWS, BASE_URL } from '../constants'
 export const handler = async (): Promise<APIGatewayProxyStructuredResultV2> => {
   const apiKey = process.env.DATABASE_API_KEY
 
-  if (!apiKey) {
-    throw new Error('Movie DB API key missing')
-  }
-
   try {
+    if (!apiKey) {
+      throw new Error('Movie DB API key missing')
+    }
+
     const showsWithTheirDetails = await getShowsWithDetails(TV_SHOWS, BASE_URL, apiKey)
     const showsWithRecentEpisodes = showsWithTheirDetails.filter(show =>
       hasNewEpisode(show.lastAirDate),
@@ -34,6 +34,9 @@ export const handler = async (): Promise<APIGatewayProxyStructuredResultV2> => {
       }),
     }
   } catch (error) {
-    throw new Error(error)
+    return {
+      statusCode: 500,
+      body: JSON.stringify('Internal server error'),
+    }
   }
 }

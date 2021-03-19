@@ -15,10 +15,10 @@ jest.mock('../utils', () => ({
 describe('handler', () => {
   const expectedApiKey = '123456'
 
-  it('throws an error when an API key is missing', async () => {
-    await expect(async () => {
-      await handler()
-    }).rejects.toThrowError('Movie DB API key missing')
+  it('returns an error when an API key is missing', async () => {
+    const response = await handler()
+
+    expect(response.body).toEqual('"Internal server error"')
   })
 
   it('calls getShowsWithDetails with correct inputs', async () => {
