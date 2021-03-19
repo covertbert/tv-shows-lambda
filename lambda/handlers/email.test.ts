@@ -1,4 +1,4 @@
-import { handler } from './get'
+import { handler } from './email'
 import { getShowsWithDetails, hasNewEpisode, sendEmail, generateMessageBody } from '../utils'
 
 import { TV_SHOWS, BASE_URL } from '../constants'

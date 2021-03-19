@@ -15,7 +15,7 @@ test('TvShowsLambdaStack', () => {
   expectCDK(stack).to(haveResource('AWS::IAM::Role'))
   expectCDK(stack).to(
     haveResourceLike('AWS::Lambda::Function', {
-      Handler: 'get.handler',
+      Handler: 'email.handler',
       Environment: {
         Variables: {
           DATABASE_API_KEY: apiKey,

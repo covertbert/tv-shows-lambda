@@ -33,7 +33,7 @@ export class TvShowsLambdaStack extends Stack {
     const lambda = new Function(this, 'GetMoviesHandler', {
       runtime: Runtime.NODEJS_12_X,
       code: Code.fromAsset('dist'),
-      handler: 'get.handler',
+      handler: 'email.handler',
       role: lambdaRole,
       environment: {
         DATABASE_API_KEY: apiKey,
