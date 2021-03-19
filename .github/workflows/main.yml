@@ -60,9 +60,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.GHP_TOKEN }}
 
       - name: Build
-        run: |
-          yarn lambda:build:email
-          yarn lambda:build:get
+        run: yarn lambda:build
 
       - name: Run all tests
         run: yarn test
@@ -72,10 +70,6 @@ jobs:
     needs: [run-tests, run-quality-checks]
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.event.ref == 'refs/heads/main') }}
-
-    strategy:
-      matrix:
-        stack: [email, get]
 
     steps:
       - uses: actions/checkout@v2
@@ -101,7 +95,7 @@ jobs:
           aws-region: eu-west-1
 
       - name: Build
-        run: yarn lambda:build:${{ matrix.stack}}
+        run: yarn lambda:build
 
       - name: Block concurrent runs
         uses: softprops/turnstyle@v1
