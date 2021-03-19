@@ -13,7 +13,7 @@
     "tsc": "tsc -p tsconfig.json --noEmit",
     "lambda:build:get": "esbuild lambda/handlers/get.ts --bundle --outfile=dist/get.js --platform=node",
     "lambda:build:email": "esbuild lambda/handlers/email.ts --bundle --outfile=dist/email.js --platform=node",
-    "lambda:deploy": "cdk deploy",
+    "lambda:deploy": "cdk deploy --require-approval never",
     "prettier:check": "prettier --check \"**/*.*\"",
     "prettier:fix": "prettier --write \"**/*.*\"",
     "lint": "eslint --ignore-path .gitignore . --ext ts --ext tsx --ext js"
