@@ -2,7 +2,7 @@ import { expect as expectCDK, haveResource, haveResourceLike } from '@aws-cdk/as
 import * as cdk from '@aws-cdk/core'
 import * as TvShowsLambda from './tv-shows-lambda-stack'
 
-test('TvShowsLambdaStack', () => {
+describe('TvShowsLambdaStack', () => {
   const apiKey = '123'
   const recipientEmails = 'dog@cat.com'
 
@@ -12,21 +12,45 @@ test('TvShowsLambdaStack', () => {
     recipientEmails,
   })
 
-  expectCDK(stack).to(haveResource('AWS::IAM::Role'))
-  expectCDK(stack).to(
-    haveResourceLike('AWS::Lambda::Function', {
-      Handler: 'email.handler',
-      Environment: {
-        Variables: {
-          DATABASE_API_KEY: apiKey,
+  it('contains an email lambda with a CloudWatch events trigger', () => {
+    expectCDK(stack).to(haveResource('AWS::IAM::Role'))
+
+    expectCDK(stack).to(
+      haveResourceLike('AWS::Lambda::Function', {
+        Handler: 'email.handler',
+        Environment: {
+          Variables: {
+            RECIPIENT_EMAILS: 'dog@cat.com',
+            DATABASE_API_KEY: apiKey,
+          },
         },
-      },
-    }),
-  )
-  expectCDK(stack).to(
-    haveResourceLike('AWS::Events::Rule', {
-      ScheduleExpression: 'cron(30 10 ? * TUE *)',
-      State: 'ENABLED',
-    }),
-  )
+      }),
+    )
+
+    expectCDK(stack).to(
+      haveResourceLike('AWS::Events::Rule', {
+        ScheduleExpression: 'cron(30 10 ? * TUE *)',
+        State: 'ENABLED',
+      }),
+    )
+  })
+
+  test('contains a get lambda with API Gateway', () => {
+    expectCDK(stack).to(
+      haveResourceLike('AWS::Lambda::Function', {
+        Handler: 'get.handler',
+        Environment: {
+          Variables: {
+            DATABASE_API_KEY: apiKey,
+          },
+        },
+      }),
+    )
+
+    expectCDK(stack).to(
+      haveResourceLike('AWS::ApiGateway::RestApi', {
+        Name: 'GetMoviesAPI',
+      }),
+    )
+  })
 })
