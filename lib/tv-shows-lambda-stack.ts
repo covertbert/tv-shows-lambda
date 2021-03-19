@@ -68,7 +68,7 @@ export class TvShowsLambdaStack extends Stack {
       proxy: false,
     })
 
-    const certificate = new Certificate(this, 'bertie-blackman', {
+    const certificate = new Certificate(this, 'Certificate', {
       domainName: 'bertie.dev',
       subjectAlternativeNames: ['*.bertie.dev'],
       validationMethod: ValidationMethod.DNS,
