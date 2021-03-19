@@ -1,9 +1,10 @@
-import { Stack, App, StackProps } from '@aws-cdk/core'
+import { Stack, App, StackProps, Duration } from '@aws-cdk/core'
 import { Function, Runtime, Code } from '@aws-cdk/aws-lambda'
 import { Role, ServicePrincipal, PolicyStatement, ManagedPolicy } from '@aws-cdk/aws-iam'
 import { Rule, Schedule } from '@aws-cdk/aws-events'
 import { LambdaFunction } from '@aws-cdk/aws-events-targets'
 import { LambdaRestApi } from '@aws-cdk/aws-apigateway'
+import { ARecord, RecordTarget, PublicHostedZone } from '@aws-cdk/aws-route53'
 
 interface ExtendedStackProps extends StackProps {
   apiKey: string
@@ -60,8 +61,22 @@ export class TvShowsLambdaStack extends Stack {
       },
     })
 
-    new LambdaRestApi(this, 'GetMoviesAPI', {
+    const api = new LambdaRestApi(this, 'GetMoviesAPI', {
       handler: getLambda,
+      proxy: false,
+    })
+
+    const shows = api.root.addResource('shows')
+    shows.addMethod('GET')
+    shows.addMethod('POST')
+
+    const zone = PublicHostedZone.fromLookup(this, 'HostedZone', { domainName: 'bertie.dev' })
+
+    new ARecord(this, 'AliasRecord', {
+      zone,
+      target: RecordTarget.fromIpAddresses(api.url),
+      recordName: 'shows.bertie.dev',
+      ttl: Duration.seconds(60),
     })
   }
 }

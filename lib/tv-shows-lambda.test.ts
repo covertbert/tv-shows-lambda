@@ -10,6 +10,10 @@ describe('TvShowsLambdaStack', () => {
   const stack = new TvShowsLambda.TvShowsLambdaStack(app, 'MyTestStack', {
     apiKey,
     recipientEmails,
+    env: {
+      account: '515213366596',
+      region: 'eu-west-2',
+    },
   })
 
   it('contains an email lambda with a CloudWatch events trigger', () => {
@@ -35,7 +39,7 @@ describe('TvShowsLambdaStack', () => {
     )
   })
 
-  test('contains a get lambda with API Gateway', () => {
+  test('contains a get lambda with API Gateway & DNS', () => {
     expectCDK(stack).to(
       haveResourceLike('AWS::Lambda::Function', {
         Handler: 'get.handler',
@@ -50,6 +54,13 @@ describe('TvShowsLambdaStack', () => {
     expectCDK(stack).to(
       haveResourceLike('AWS::ApiGateway::RestApi', {
         Name: 'GetMoviesAPI',
+      }),
+    )
+
+    expectCDK(stack).to(
+      haveResourceLike('AWS::Route53::RecordSet', {
+        Name: 'shows.bertie.dev.',
+        Type: 'A',
       }),
     )
   })

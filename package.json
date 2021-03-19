@@ -22,6 +22,8 @@
     "@aws-cdk/aws-apigateway": "^1.94.1",
     "@aws-cdk/aws-events-targets": "^1.94.1",
     "@aws-cdk/aws-lambda": "^1.94.1",
+    "@aws-cdk/aws-route53": "^1.94.1",
+    "@aws-cdk/aws-route53-targets": "^1.94.1",
     "@aws-cdk/core": "1.94.1",
     "@types/aws-lambda": "^8.10.72",
     "@types/jest": "^26.0.21",
