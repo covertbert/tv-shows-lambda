@@ -1,10 +1,40 @@
-import { APIGatewayProxyStructuredResultV2, APIGatewayProxyEventV2 } from 'aws-lambda'
+import {
+  APIGatewayProxyStructuredResultV2,
+  APIGatewayProxyEventV2,
+  APIGatewayProxyEventQueryStringParameters,
+} from 'aws-lambda'
 
 import { getShowsWithDetails, hasNewEpisode } from '../utils'
 import { TV_SHOWS, BASE_URL } from '../constants'
+import { ShowsWithDetails } from '../types'
 
-export const handler = async (): Promise<APIGatewayProxyStructuredResultV2> => {
+export const getBody = (
+  queryStringParameters: APIGatewayProxyEventQueryStringParameters | undefined,
+  showsWithTheirDetails: ShowsWithDetails,
+): string => {
+  if (queryStringParameters?.showsWithRecentEpisodes) {
+    const showsWithRecentEpisodes = showsWithTheirDetails.filter(show =>
+      hasNewEpisode(show.lastAirDate),
+    )
+
+    return JSON.stringify({
+      totalCount: showsWithRecentEpisodes.length,
+      shows: showsWithRecentEpisodes,
+    })
+  }
+
+  return JSON.stringify({
+    totalCount: showsWithTheirDetails.length,
+    shows: showsWithTheirDetails,
+  })
+}
+
+export const handler = async (
+  event: APIGatewayProxyEventV2,
+): Promise<APIGatewayProxyStructuredResultV2> => {
   const apiKey = process.env.DATABASE_API_KEY
+
+  const { queryStringParameters } = event
 
   try {
     if (!apiKey) {
@@ -12,9 +42,6 @@ export const handler = async (): Promise<APIGatewayProxyStructuredResultV2> => {
     }
 
     const showsWithTheirDetails = await getShowsWithDetails(TV_SHOWS, BASE_URL, apiKey)
-    const showsWithRecentEpisodes = showsWithTheirDetails.filter(show =>
-      hasNewEpisode(show.lastAirDate),
-    )
 
     return {
       statusCode: 200,
@@ -28,10 +55,7 @@ export const handler = async (): Promise<APIGatewayProxyStructuredResultV2> => {
         Pragma: 'no-cache',
         'Access-Control-Allow-Origin': '*',
       },
-      body: JSON.stringify({
-        totalCount: showsWithRecentEpisodes.length,
-        shows: showsWithRecentEpisodes,
-      }),
+      body: getBody(queryStringParameters, showsWithTheirDetails),
     }
   } catch (error) {
     return {
