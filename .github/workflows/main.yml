@@ -107,3 +107,12 @@ jobs:
           yarn lambda:deploy \
             --context apiKey=${{ secrets.DATABASE_API_KEY }} \
             --context recipientEmails=${{ secrets.RECIPIENT_EMAILS }}
+
+  smoke-test:
+    name: Smoke Test
+    needs: [deploy]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Test get endpoint
+        run: curl https://shows.bertie.dev/shows
