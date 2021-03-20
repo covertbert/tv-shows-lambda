@@ -43,7 +43,8 @@ export class GetLambda extends Construct {
       certificate: certificate,
     })
 
-    api.root.addMethod('ANY')
+    const shows = api.root.addResource('shows')
+    shows.addMethod('GET')
 
     const zone = PublicHostedZone.fromLookup(this, 'HostedZone', { domainName: 'bertie.dev' })
 

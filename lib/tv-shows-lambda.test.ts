@@ -60,7 +60,7 @@ describe('TvShowsLambdaStack', () => {
 
     expectCDK(stack).to(
       haveResourceLike('AWS::ApiGateway::Method', {
-        HttpMethod: 'ANY',
+        HttpMethod: 'GET',
       }),
     )
 
