@@ -67,7 +67,7 @@ jobs:
 
   deploy:
     name: Deploy Stack via CDK
-    needs: [run-tests, run-quality-checks]
+    # needs: [run-tests, run-quality-checks]
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.event.ref == 'refs/heads/main') }}
 

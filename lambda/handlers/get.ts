@@ -1,10 +1,16 @@
-import { APIGatewayProxyStructuredResultV2 } from 'aws-lambda'
+import { APIGatewayProxyStructuredResultV2, APIGatewayProxyEventV2 } from 'aws-lambda'
 
 import { getShowsWithDetails, hasNewEpisode } from '../utils'
 import { TV_SHOWS, BASE_URL } from '../constants'
 
-export const handler = async (): Promise<APIGatewayProxyStructuredResultV2> => {
+export const handler = async (
+  event: APIGatewayProxyEventV2,
+): Promise<APIGatewayProxyStructuredResultV2> => {
   const apiKey = process.env.DATABASE_API_KEY
+
+  const { queryStringParameters } = event
+
+  console.log('HELLO', queryStringParameters)
 
   try {
     if (!apiKey) {
