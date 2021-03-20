@@ -11,7 +11,7 @@
     "test": "lambda:build; jest",
     "cdk": "cdk",
     "tsc": "tsc -p tsconfig.json --noEmit",
-    "lambda:build": "esbuild lambda/handlers/**.ts --bundle --outdir=dist --platform=node",
+    "lambda:build": "esbuild lambda/handlers/**.ts --bundle --outdir=dist --platform=node --sourcemap",
     "lambda:deploy": "cdk deploy --require-approval never",
     "prettier:check": "prettier --check \"**/*.*\"",
     "prettier:fix": "prettier --write \"**/*.*\"",
