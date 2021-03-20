@@ -12,14 +12,12 @@ export const getBody = (
   queryStringParameters: APIGatewayProxyEventQueryStringParameters | undefined,
   showsWithTheirDetails: ShowsWithDetails,
 ): string => {
-  if (queryStringParameters?.showsWithRecentEpisodes) {
-    const showsWithRecentEpisodes = showsWithTheirDetails.filter(show =>
-      hasNewEpisode(show.lastAirDate),
-    )
+  if (queryStringParameters?.withRecentEpisodes) {
+    const withRecentEpisodes = showsWithTheirDetails.filter(show => hasNewEpisode(show.lastAirDate))
 
     return JSON.stringify({
-      totalCount: showsWithRecentEpisodes.length,
-      shows: showsWithRecentEpisodes,
+      totalCount: withRecentEpisodes.length,
+      shows: withRecentEpisodes,
     })
   }
 

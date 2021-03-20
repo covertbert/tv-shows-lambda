@@ -17,11 +17,9 @@ export const handler: Handler = async () => {
 
   try {
     const showsWithTheirDetails = await getShowsWithDetails(TV_SHOWS, BASE_URL, apiKey)
-    const showsWithRecentEpisodes = showsWithTheirDetails.filter(show =>
-      hasNewEpisode(show.lastAirDate),
-    )
+    const withRecentEpisodes = showsWithTheirDetails.filter(show => hasNewEpisode(show.lastAirDate))
 
-    await sendEmail(generateMessageBody(showsWithRecentEpisodes), recipientEmails)
+    await sendEmail(generateMessageBody(withRecentEpisodes), recipientEmails)
   } catch (error) {
     throw new Error(error)
   }

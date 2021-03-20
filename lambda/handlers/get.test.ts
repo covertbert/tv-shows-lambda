@@ -48,7 +48,7 @@ describe('handler', () => {
     process.env.DATABASE_API_KEY = expectedApiKey
 
     const params = ({
-      queryStringParameters: { showsWithRecentEpisodes: 'true' },
+      queryStringParameters: { withRecentEpisodes: 'true' },
     } as unknown) as APIGatewayProxyEventV2
 
     const response = await handler(params)
@@ -73,20 +73,20 @@ describe('getBody', () => {
 
   const showsWithTheirDetails = [mockTvShow1, mockTvShow2]
 
-  it('calls hasNewEpisode with correct inputs when showsWithRecentEpisodes is true', async () => {
+  it('calls hasNewEpisode with correct inputs when withRecentEpisodes is true', async () => {
     process.env.DATABASE_API_KEY = expectedApiKey
 
-    const queryStringParameters = { showsWithRecentEpisodes: 'true' }
+    const queryStringParameters = { withRecentEpisodes: 'true' }
 
     getBody(queryStringParameters, showsWithTheirDetails)
 
     expect(hasNewEpisode).toBeCalledWith(mockTvShow1.lastAirDate)
   })
 
-  it('returns body containing filtered shows when showsWithRecentEpisodes is true', async () => {
+  it('returns body containing filtered shows when withRecentEpisodes is true', async () => {
     process.env.DATABASE_API_KEY = expectedApiKey
 
-    const queryStringParameters = { showsWithRecentEpisodes: 'true' }
+    const queryStringParameters = { withRecentEpisodes: 'true' }
 
     const stringifiedBody = JSON.stringify({
       totalCount: 1,
