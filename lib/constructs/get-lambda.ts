@@ -18,7 +18,7 @@ export class GetLambda extends Construct {
     const { lambdaRole, apiKey } = props
 
     const getLambda = new Function(this, 'GetMoviesHandler', {
-      runtime: Runtime.NODEJS_12_X,
+      runtime: Runtime.NODEJS_14_X,
       code: Code.fromAsset('dist'),
       handler: 'get.handler',
       role: lambdaRole,
