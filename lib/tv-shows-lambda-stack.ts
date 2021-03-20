@@ -81,10 +81,6 @@ export class TvShowsLambdaStack extends Stack {
 
     api.root.addMethod('ANY')
 
-    const shows = api.root.addResource('shows')
-    shows.addMethod('GET')
-    shows.addMethod('POST')
-
     const zone = PublicHostedZone.fromLookup(this, 'HostedZone', { domainName: 'bertie.dev' })
 
     new ARecord(this, 'AliasRecord', {

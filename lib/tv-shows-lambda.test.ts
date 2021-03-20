@@ -65,18 +65,6 @@ describe('TvShowsLambdaStack', () => {
     )
 
     expectCDK(stack).to(
-      haveResourceLike('AWS::ApiGateway::Method', {
-        HttpMethod: 'POST',
-      }),
-    )
-
-    expectCDK(stack).to(
-      haveResourceLike('AWS::ApiGateway::Method', {
-        HttpMethod: 'GET',
-      }),
-    )
-
-    expectCDK(stack).to(
       haveResourceLike('AWS::ApiGateway::DomainName', {
         DomainName: 'shows.bertie.dev',
       }),
