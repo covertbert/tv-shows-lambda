@@ -79,6 +79,8 @@ export class TvShowsLambdaStack extends Stack {
       certificate: certificate,
     })
 
+    api.root.addMethod('ANY')
+
     const shows = api.root.addResource('shows')
     shows.addMethod('GET')
     shows.addMethod('POST')

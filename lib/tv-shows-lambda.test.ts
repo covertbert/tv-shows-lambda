@@ -1,13 +1,14 @@
+import { App } from '@aws-cdk/core'
 import { expect as expectCDK, haveResource, haveResourceLike } from '@aws-cdk/assert'
-import * as cdk from '@aws-cdk/core'
-import * as TvShowsLambda from './tv-shows-lambda-stack'
+
+import { TvShowsLambdaStack } from './tv-shows-lambda-stack'
 
 describe('TvShowsLambdaStack', () => {
   const apiKey = '123'
   const recipientEmails = 'dog@cat.com'
 
-  const app = new cdk.App()
-  const stack = new TvShowsLambda.TvShowsLambdaStack(app, 'MyTestStack', {
+  const app = new App()
+  const stack = new TvShowsLambdaStack(app, 'MyTestStack', {
     apiKey,
     recipientEmails,
     env: {
@@ -54,6 +55,30 @@ describe('TvShowsLambdaStack', () => {
     expectCDK(stack).to(
       haveResourceLike('AWS::ApiGateway::RestApi', {
         Name: 'GetMoviesAPI',
+      }),
+    )
+
+    expectCDK(stack).to(
+      haveResourceLike('AWS::ApiGateway::Method', {
+        HttpMethod: 'ANY',
+      }),
+    )
+
+    expectCDK(stack).to(
+      haveResourceLike('AWS::ApiGateway::Method', {
+        HttpMethod: 'POST',
+      }),
+    )
+
+    expectCDK(stack).to(
+      haveResourceLike('AWS::ApiGateway::Method', {
+        HttpMethod: 'GET',
+      }),
+    )
+
+    expectCDK(stack).to(
+      haveResourceLike('AWS::ApiGateway::DomainName', {
+        DomainName: 'shows.bertie.dev',
       }),
     )
 
