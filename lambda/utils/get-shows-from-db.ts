@@ -12,14 +12,21 @@ export const getShowsFromDB: GetShowsFromDB = async () => {
   }
 
   try {
-    const { Items: shows } = await ddb.scan(params).promise()
+    // const { Items: shows } = await ddb.scan(params).promise()
 
-    console.log('SHOWS FROM DB', shows)
+    // console.log('SHOWS FROM DB', shows)
 
-    return shows!.map(show => ({
-      id: show.id!.S!,
-      name: show.name!.S!,
-    }))
+    return [
+      {
+        id: '123',
+        name: 'Mr Bean',
+      },
+    ]
+
+    // return shows!.map(show => ({
+    //   id: show.id!.S!,
+    //   name: show.name!.S!,
+    // }))
   } catch (e) {
     throw new Error(e)
   }
