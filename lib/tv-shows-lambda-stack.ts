@@ -17,6 +17,7 @@ export class TvShowsLambdaStack extends Stack {
     const { apiKey, recipientEmails } = props
 
     new Table(this, 'Table', {
+      tableName: 'TVShowsTable',
       partitionKey: { name: 'id', type: AttributeType.STRING },
     })
 
