@@ -1,0 +1,24 @@
+import { DynamoDB } from 'aws-sdk'
+
+import { Show } from '../types'
+
+type GetShowsFromDB = () => Promise<Show[]>
+
+export const getShowsFromDB: GetShowsFromDB = async () => {
+  const ddb = new DynamoDB({ apiVersion: '2012-08-10', region: 'eu-west-2' })
+
+  const params = {
+    TableName: 'TVShowsTable',
+  }
+
+  try {
+    const { Items: shows } = await ddb.scan(params).promise()
+
+    return shows!.map(show => ({
+      id: show.id!.S!,
+      name: show.name!.N!,
+    }))
+  } catch (e) {
+    throw new Error(e)
+  }
+}
