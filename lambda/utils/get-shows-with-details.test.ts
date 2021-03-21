@@ -24,4 +24,14 @@ describe('getShowsWithDetails', () => {
 
     expect(await getShowsWithDetails(tvShows, baseURL, apiKey)).toEqual(expectedResult)
   })
+
+  it('throws an error when API request fails', async () => {
+    ;((got as unknown) as jest.Mock).mockImplementation(() => {
+      throw new Error()
+    })
+
+    await expect(async () => {
+      await getShowsWithDetails(tvShows, baseURL, apiKey)
+    }).rejects.toThrowError()
+  })
 })
