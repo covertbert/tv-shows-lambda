@@ -1,6 +1,6 @@
 import { DynamoDB } from 'aws-sdk'
 
-import { getShowsFromDB } from './get-shows-from-db'
+import { getShowsFromDB } from '.'
 
 jest.mock('aws-sdk')
 

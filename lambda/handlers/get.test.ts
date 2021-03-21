@@ -1,7 +1,7 @@
 import { APIGatewayProxyEventV2 } from 'aws-lambda'
 
 import { handler, getBody } from './get'
-import { getShowsWithDetails, hasNewEpisode } from '../utils'
+import { getShowsWithDetails, hasNewEpisode, getShowsFromDB } from '../utils'
 
 import { TV_SHOWS, BASE_URL } from '../constants'
 
@@ -9,11 +9,14 @@ const mockTvShow1 = { lastAirDate: '2012-03-23', name: 'Mr Bean' }
 const mockTvShow2 = { lastAirDate: '2014-06-23', name: 'Mr Chong' }
 const mockAPIGatewayProxyEvent = {} as APIGatewayProxyEventV2
 
+const mockShowFromDB = { name: 'Mr Bean', id: '12345' }
+
 jest.mock('../utils', () => ({
   getShowsWithDetails: jest.fn(() => [mockTvShow1, mockTvShow2]),
   hasNewEpisode: jest.fn(lastAirDate => parseInt(lastAirDate.split('-')[0]) < 2014),
   sendEmail: jest.fn(),
   generateMessageBody: jest.fn(),
+  getShowsFromDB: jest.fn(() => [mockShowFromDB]),
 }))
 
 describe('handler', () => {
@@ -30,7 +33,19 @@ describe('handler', () => {
 
     await handler(mockAPIGatewayProxyEvent)
 
-    expect(getShowsWithDetails).toBeCalledWith(TV_SHOWS, BASE_URL, process.env.DATABASE_API_KEY)
+    expect(getShowsWithDetails).toBeCalledWith(
+      [mockShowFromDB],
+      BASE_URL,
+      process.env.DATABASE_API_KEY,
+    )
+  })
+
+  it('calls getShowsFromDB with correct inputs', async () => {
+    process.env.DATABASE_API_KEY = expectedApiKey
+
+    await handler(mockAPIGatewayProxyEvent)
+
+    expect(getShowsFromDB).toBeCalled()
   })
 
   it('returns the correct shows and totalCount when given no params', async () => {

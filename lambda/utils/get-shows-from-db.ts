@@ -1,8 +1,8 @@
 import { DynamoDB } from 'aws-sdk'
 
-import { Show } from '../types'
+import { Shows } from '../types'
 
-type GetShowsFromDB = () => Promise<Show[]>
+type GetShowsFromDB = () => Promise<Shows>
 
 export const getShowsFromDB: GetShowsFromDB = async () => {
   const ddb = new DynamoDB({ apiVersion: '2012-08-10', region: 'eu-west-2' })

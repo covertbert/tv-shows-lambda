@@ -4,8 +4,8 @@ import {
   APIGatewayProxyEventQueryStringParameters,
 } from 'aws-lambda'
 
-import { getShowsWithDetails, hasNewEpisode } from '../utils'
-import { TV_SHOWS, BASE_URL } from '../constants'
+import { getShowsWithDetails, hasNewEpisode, getShowsFromDB } from '../utils'
+import { BASE_URL } from '../constants'
 import { ShowsWithDetails } from '../types'
 
 export const getBody = (
@@ -39,7 +39,9 @@ export const handler = async (
       throw new Error('Movie DB API key missing')
     }
 
-    const showsWithTheirDetails = await getShowsWithDetails(TV_SHOWS, BASE_URL, apiKey)
+    const tvShowsWeCareAbout = await getShowsFromDB()
+
+    const showsWithTheirDetails = await getShowsWithDetails(tvShowsWeCareAbout, BASE_URL, apiKey)
 
     return {
       statusCode: 200,
