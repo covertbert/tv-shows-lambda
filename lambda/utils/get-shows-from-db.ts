@@ -16,7 +16,7 @@ export const getShowsFromDB: GetShowsFromDB = async () => {
 
     return shows!.map(show => ({
       id: show.id!.S!,
-      name: show.name!.N!,
+      name: show.name!.S!,
     }))
   } catch (e) {
     throw new Error(e)
