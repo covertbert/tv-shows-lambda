@@ -44,7 +44,6 @@ export const handler = async (
     return {
       statusCode: 200,
       headers: {
-        'Content-Security-Policy': "Include default-src 'self'",
         'Strict-Transport-Security': 'max-age=31536000; includeSubDomains; preload',
         'X-Content-Type-Options': 'nosniff',
         'X-XSS-Protection': '1',
