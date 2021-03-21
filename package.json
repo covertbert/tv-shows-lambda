@@ -8,7 +8,7 @@
   "scripts": {
     "build": "yarn lambda:build",
     "watch": "tsc -w",
-    "test": "lambda:build; jest",
+    "test": "yarn lambda:build; jest --coverage",
     "cdk": "cdk",
     "tsc": "tsc -p tsconfig.json --noEmit",
     "lambda:build": "esbuild lambda/handlers/**.ts --bundle --outdir=dist --platform=node --sourcemap",
