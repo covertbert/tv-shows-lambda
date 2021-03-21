@@ -17,7 +17,7 @@ export class EmailLambda extends Construct {
     const { lambdaRole, apiKey, recipientEmails } = props
 
     const emailLambda = new Function(this, 'EmailMoviesHandler', {
-      runtime: Runtime.NODEJS_12_X,
+      runtime: Runtime.NODEJS_14_X,
       code: Code.fromAsset('dist'),
       handler: 'email.handler',
       role: lambdaRole,
