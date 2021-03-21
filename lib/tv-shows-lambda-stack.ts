@@ -1,5 +1,6 @@
 import { Stack, App, StackProps } from '@aws-cdk/core'
 import { Role, ServicePrincipal, PolicyStatement, ManagedPolicy } from '@aws-cdk/aws-iam'
+import { Table, AttributeType } from '@aws-cdk/aws-dynamodb'
 
 import { EmailLambda } from './constructs/email-lambda'
 import { GetLambda } from './constructs/get-lambda'
@@ -14,6 +15,10 @@ export class TvShowsLambdaStack extends Stack {
     super(scope, id, props)
 
     const { apiKey, recipientEmails } = props
+
+    new Table(this, 'Table', {
+      partitionKey: { name: 'id', type: AttributeType.STRING },
+    })
 
     const lambdaRole = new Role(this, 'ExecutionRole', {
       assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
