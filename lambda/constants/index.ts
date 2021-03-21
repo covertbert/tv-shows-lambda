@@ -67,4 +67,8 @@ export const TV_SHOWS: Shows = [
     name: 'The Bureau',
     id: '62476',
   },
+  {
+    name: 'Line Of Duty',
+    id: '43982',
+  },
 ]
