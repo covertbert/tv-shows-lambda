@@ -15,7 +15,7 @@ export const getShowsFromDB: GetShowsFromDB = async () => {
     const { Items: shows } = await ddb.scan(params).promise()
 
     console.log('SHOWS FROM DB', shows)
-    g
+
     return [
       {
         id: '123',

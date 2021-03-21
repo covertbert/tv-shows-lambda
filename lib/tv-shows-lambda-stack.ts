@@ -28,7 +28,7 @@ export class TvShowsLambdaStack extends Stack {
     lambdaRole.addToPolicy(
       new PolicyStatement({
         resources: ['*'],
-        actions: ['ses:SendEmail', 'ses:SendRawEmail'],
+        actions: ['ses:SendEmail', 'ses:SendRawEmail', 'dynamodb:*'],
       }),
     )
 
