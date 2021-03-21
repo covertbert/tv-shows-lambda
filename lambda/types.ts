@@ -3,4 +3,5 @@ export type ShowsWithDetails = {
   lastAirDate: string
 }[]
 
-export type Shows = { name: string; id: string }[]
+export type Show = { name: string; id: string }
+export type Shows = Show[]
