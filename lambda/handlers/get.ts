@@ -41,8 +41,6 @@ export const handler = async (
 
     const tvShowsWeCareAbout = await getShowsFromDB()
 
-    console.log('tvShowsWeCareAbout', tvShowsWeCareAbout)
-
     const showsWithTheirDetails = await getShowsWithDetails(tvShowsWeCareAbout, BASE_URL, apiKey)
 
     return {
