@@ -7,11 +7,11 @@ type GetShowsFromDB = () => Promise<Shows>
 export const getShowsFromDB: GetShowsFromDB = async () => {
   const ddb = new DynamoDB({ apiVersion: '2012-08-10', region: 'eu-west-2' })
 
-  const params = {
-    TableName: 'TVShowsTable',
-  }
-
   try {
+    const params = {
+      TableName: 'TVShowsTable',
+    }
+
     const { Items: shows } = await ddb.scan(params).promise()
 
     return shows!.map(show => ({

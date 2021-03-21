@@ -15,7 +15,7 @@ describe('writeShowToDB', () => {
     promise: jest.fn().mockResolvedValue({}),
   })
 
-  it('calls putItem with inputs', () => {
+  it('calls putItem with inputs', async () => {
     dynamoMock.mockImplementationOnce(() => ({
       putItem,
     }))

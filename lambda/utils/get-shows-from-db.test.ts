@@ -10,28 +10,32 @@ afterEach(() => {
   dynamoMock.mockClear()
 })
 
+const mockShow = { name: 'Mr Bean', id: '123456' }
+
 describe('getShowsFromDB', () => {
   const scan = jest.fn().mockReturnValue({
-    promise: jest.fn().mockResolvedValue([{ name: { S: 'Mr Bean' }, id: { S: '123456' } }]),
+    promise: jest
+      .fn()
+      .mockResolvedValue({ Items: [{ name: { S: mockShow.name }, id: { S: mockShow.id } }] }),
   })
 
-  it('calls ddb.scan with table name', () => {
+  it('calls ddb.scan with table name', async () => {
     dynamoMock.mockImplementationOnce(() => ({
       scan,
     }))
 
-    getShowsFromDB()
+    await getShowsFromDB()
 
     expect(scan).toBeCalledWith({
       TableName: 'TVShowsTable',
     })
   })
 
-  // it('calls return shows from db', async () => {
-  //   dynamoMock.mockImplementationOnce(() => ({
-  //     scan,
-  //   }))
+  it('calls return shows from db', async () => {
+    dynamoMock.mockImplementationOnce(() => ({
+      scan,
+    }))
 
-  //   expect(await getShowsFromDB()).toEqual('')
-  // })
+    expect(await getShowsFromDB()).toEqual([mockShow])
+  })
 })
