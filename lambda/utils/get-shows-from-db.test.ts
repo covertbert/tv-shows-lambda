@@ -12,7 +12,7 @@ afterEach(() => {
 
 describe('getShowsFromDB', () => {
   const scan = jest.fn().mockReturnValue({
-    promise: jest.fn().mockResolvedValue({}),
+    promise: jest.fn().mockResolvedValue([{ name: { S: 'Mr Bean' }, id: { S: '123456' } }]),
   })
 
   it('calls ddb.scan with table name', () => {
@@ -26,4 +26,12 @@ describe('getShowsFromDB', () => {
       TableName: 'TVShowsTable',
     })
   })
+
+  // it('calls return shows from db', async () => {
+  //   dynamoMock.mockImplementationOnce(() => ({
+  //     scan,
+  //   }))
+
+  //   expect(await getShowsFromDB()).toEqual('')
+  // })
 })
