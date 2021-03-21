@@ -14,6 +14,8 @@ export const getShowsFromDB: GetShowsFromDB = async () => {
   try {
     const { Items: shows } = await ddb.scan(params).promise()
 
+    console.log('SHOWS FROM DB', shows)
+
     return shows!.map(show => ({
       id: show.id!.S!,
       name: show.name!.S!,
