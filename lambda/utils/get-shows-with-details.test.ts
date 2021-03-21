@@ -1,9 +1,11 @@
-import got from 'got'
+import fetch from 'node-fetch'
 import { getShowsWithDetails } from '.'
 
-jest.mock('got', () => ({
+jest.mock('node-fetch', () => ({
   __esModule: true,
-  default: jest.fn(() => Promise.resolve({ body: '{ "last_air_date": "1234" }' })),
+  default: jest.fn(() =>
+    Promise.resolve({ text: () => Promise.resolve('{ "last_air_date": "1234" }') }),
+  ),
 }))
 
 describe('getShowsWithDetails', () => {
@@ -16,7 +18,7 @@ describe('getShowsWithDetails', () => {
 
     const expectedResult = `${baseURL}/${tvShows[0].id}?api_key=${apiKey}`
 
-    expect(got).toBeCalledWith(expectedResult)
+    expect(fetch).toBeCalledWith(expectedResult)
   })
 
   it('returns shows with details when given the correct inputs', async () => {
@@ -26,7 +28,7 @@ describe('getShowsWithDetails', () => {
   })
 
   it('throws an error when API request fails', async () => {
-    ;((got as unknown) as jest.Mock).mockImplementation(() => {
+    ;((fetch as unknown) as jest.Mock).mockImplementation(() => {
       throw new Error()
     })
 

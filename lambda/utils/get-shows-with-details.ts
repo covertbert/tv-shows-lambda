@@ -1,4 +1,4 @@
-import got from 'got'
+import fetch from 'node-fetch'
 
 import { Shows, ShowsWithDetails } from '../types'
 
@@ -11,8 +11,9 @@ export const getShowsWithDetails: GetShowsWithDetails = (tvShows, baseURL, apiKe
   Promise.all(
     tvShows.map(async movie => {
       try {
-        const response = await got(`${baseURL}/${movie.id}?api_key=${apiKey}`)
-        const movieDetails: { last_air_date: string } = JSON.parse(response.body)
+        const response = await fetch(`${baseURL}/${movie.id}?api_key=${apiKey}`)
+        const movieDetails: { last_air_date: string } = JSON.parse(await response.text())
+
         return { name: movie.name, lastAirDate: movieDetails.last_air_date }
       } catch (error) {
         throw Error(error)
