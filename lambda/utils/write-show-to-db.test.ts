@@ -11,6 +11,8 @@ afterEach(() => {
 })
 
 describe('writeShowToDB', () => {
+  const input = { name: 'Mr Chong', id: '4321' }
+
   const putItem = jest.fn().mockReturnValue({
     promise: jest.fn().mockResolvedValue({}),
   })
@@ -20,7 +22,6 @@ describe('writeShowToDB', () => {
       putItem,
     }))
 
-    const input = { name: 'Mr Chong', id: '4321' }
     const expectedOutput: DynamoDB.Types.PutItemInput = {
       TableName: 'TVShowsTable',
       Item: {
@@ -36,5 +37,19 @@ describe('writeShowToDB', () => {
     writeShowToDB(input)
 
     expect(putItem).toHaveBeenCalledWith(expectedOutput)
+  })
+
+  it('throws an error when the db put fails', async () => {
+    dynamoMock.mockImplementationOnce(() => ({
+      putItem: jest.fn().mockImplementationOnce(() => {
+        throw 'Big bad error'
+      }),
+    }))
+
+    try {
+      await writeShowToDB(input)
+    } catch (e) {
+      expect(e.message).toEqual('Big bad error')
+    }
   })
 })
