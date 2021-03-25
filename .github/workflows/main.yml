@@ -102,11 +102,14 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Deploy
+      - name: Deploy Stack
         run: |
           yarn lambda:deploy \
             --context apiKey=${{ secrets.DATABASE_API_KEY }} \
             --context recipientEmails=${{ secrets.RECIPIENT_EMAILS }}
+
+      - name: Write shows from file to Dynamo
+        run: npx ts-node ./tools/write-shows-from-file.ts
 
   smoke-test:
     name: 💨 Smoke Test
