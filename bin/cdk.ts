@@ -8,6 +8,7 @@ const app = new App()
 
 const apiKey: string | undefined = app.node.tryGetContext('apiKey')
 const recipientEmails: string | undefined = app.node.tryGetContext('recipientEmails')
+const libHoneyApiKey: string | undefined = app.node.tryGetContext('libHoneyApiKey')
 
 if (!apiKey) {
   throw new Error('Missing TV DB API key')
@@ -19,6 +20,7 @@ if (!recipientEmails) {
 
 new TvShowsLambdaStack(app, 'TvShowsLambdaStack', {
   apiKey,
+  libHoneyApiKey,
   recipientEmails,
   env: {
     region: 'eu-west-2',

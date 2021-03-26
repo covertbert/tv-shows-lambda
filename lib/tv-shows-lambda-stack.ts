@@ -7,6 +7,7 @@ import { GetLambda } from './constructs/get-lambda'
 
 interface ExtendedStackProps extends StackProps {
   apiKey: string
+  libHoneyApiKey: string
   recipientEmails: string
 }
 
@@ -14,7 +15,7 @@ export class TvShowsLambdaStack extends Stack {
   constructor(scope: App, id: string, props: ExtendedStackProps) {
     super(scope, id, props)
 
-    const { apiKey, recipientEmails } = props
+    const { apiKey, libHoneyApiKey, recipientEmails } = props
 
     new Table(this, 'Table', {
       tableName: 'TVShowsTable',
@@ -45,6 +46,7 @@ export class TvShowsLambdaStack extends Stack {
     new GetLambda(this, 'GetLambda', {
       lambdaRole,
       apiKey,
+      libHoneyApiKey,
     })
   }
 }

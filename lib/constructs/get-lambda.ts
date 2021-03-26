@@ -1,5 +1,5 @@
 import { Construct, StackProps, Duration } from '@aws-cdk/core'
-import { Function, Runtime, Code } from '@aws-cdk/aws-lambda'
+import { Function, Runtime, Code, LayerVersion } from '@aws-cdk/aws-lambda'
 import { LambdaRestApi } from '@aws-cdk/aws-apigateway'
 import { ARecord, RecordTarget, PublicHostedZone } from '@aws-cdk/aws-route53'
 import { ApiGateway } from '@aws-cdk/aws-route53-targets'
@@ -9,21 +9,31 @@ import { Role } from '@aws-cdk/aws-iam'
 interface ExtendedStackProps extends StackProps {
   lambdaRole: Role
   apiKey: string
+  libHoneyApiKey: string
 }
 
 export class GetLambda extends Construct {
   constructor(scope: Construct, id: string, props: ExtendedStackProps) {
     super(scope, id)
 
-    const { lambdaRole, apiKey } = props
+    const { lambdaRole, apiKey, libHoneyApiKey } = props
 
     const getLambda = new Function(this, 'GetMoviesHandler', {
-      runtime: Runtime.NODEJS_14_X,
+      runtime: Runtime.NODEJS_12_X,
       code: Code.fromAsset('dist'),
       handler: 'get.handler',
       role: lambdaRole,
+      layers: [
+        LayerVersion.fromLayerVersionArn(
+          this,
+          'HoneycombLambdaLayer',
+          'arn:aws:lambda:eu-west-2:702835727665:layer:honeycomb-lambda-extension:6',
+        ),
+      ],
       environment: {
         DATABASE_API_KEY: apiKey,
+        LIBHONEY_DATASET: 'tv-shows-get-lambda',
+        LIBHONEY_API_KEY: libHoneyApiKey,
       },
     })
 

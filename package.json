@@ -11,7 +11,7 @@
     "test": "yarn lambda:build; jest --coverage",
     "cdk": "cdk",
     "tsc": "tsc -p tsconfig.json --noEmit",
-    "lambda:build": "esbuild lambda/handlers/email.ts lambda/handlers/get.ts --bundle --outdir=dist --platform=node --sourcemap --minify",
+    "lambda:build": "esbuild lambda/handlers/email.ts lambda/handlers/get.ts --bundle --outdir=dist --platform=node --sourcemap --minify --target=node12",
     "lambda:deploy": "cdk deploy --require-approval never",
     "prettier:check": "prettier --check \"**/*.*\"",
     "prettier:fix": "prettier --write \"**/*.*\"",
