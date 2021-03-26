@@ -51,6 +51,7 @@ describe('TvShowsLambdaStack', () => {
             DATABASE_API_KEY: apiKey,
           },
         },
+        Layers: ['arn:aws:lambda:eu-west-2:702835727665:layer:honeycomb-lambda-extension:6'],
       }),
     )
 
