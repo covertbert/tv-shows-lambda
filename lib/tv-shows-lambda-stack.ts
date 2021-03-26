@@ -40,6 +40,7 @@ export class TvShowsLambdaStack extends Stack {
     new EmailLambda(this, 'EmailLambda', {
       lambdaRole,
       apiKey,
+      libHoneyApiKey,
       recipientEmails,
     })
 

@@ -1,7 +1,8 @@
-import { handler } from './email'
+import { handler, filterEmails } from './email'
 import { getShowsWithDetails, hasNewEpisode, sendEmail, generateMessageBody } from '../utils'
 
 import { TV_SHOWS, BASE_URL } from '../constants'
+import { ShowsWithDetails } from '../types'
 
 const mockTvShow = { lastAirDate: '2012-03-23', name: 'Mr Bean' }
 
@@ -54,7 +55,7 @@ describe('handler', () => {
 
     await handler()
 
-    expect(sendEmail).toBeCalledWith(generateMessageBody([mockTvShow]), expectedEmail)
+    expect(sendEmail).toBeCalledWith(generateMessageBody([mockTvShow]), [expectedEmail])
   })
 
   it('calls generateMessageBody with correct inputs', async () => {
@@ -64,5 +65,27 @@ describe('handler', () => {
     await handler()
 
     expect(generateMessageBody).toBeCalledWith([mockTvShow])
+  })
+})
+
+describe('filterEmails', () => {
+  it('only returns the first email when showsWithRecentEpisodes length is zero or less', () => {
+    const inputs = 'email1@email.com,email2@email.com'
+    const expectedResults = ['email1@email.com']
+
+    const mockShowsWithRecentEpisodes: ShowsWithDetails = []
+
+    expect(filterEmails(inputs, mockShowsWithRecentEpisodes)).toEqual(expectedResults)
+  })
+
+  it('only returns the first email when showsWithRecentEpisodes length is more than zero', () => {
+    const inputs = 'email1@email.com,email2@email.com'
+    const expectedResults = ['email1@email.com']
+
+    const mockShowsWithRecentEpisodes: ShowsWithDetails = [
+      { lastAirDate: '2012-11-21', name: 'Mr Bean' },
+    ]
+
+    expect(filterEmails(inputs, mockShowsWithRecentEpisodes)).toEqual(expectedResults)
   })
 })

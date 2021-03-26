@@ -1,5 +1,12 @@
 import { getShowsWithDetails, hasNewEpisode, sendEmail, generateMessageBody } from '../utils'
 import { TV_SHOWS, BASE_URL } from '../constants'
+import { ShowsWithDetails } from '../types'
+
+type FilterEmails = (recipientEmails: string, showsWithRecentEpisodes: ShowsWithDetails) => string[]
+export const filterEmails: FilterEmails = (recipientEmails, showsWithRecentEpisodes) => {
+  const [bertieEmail] = recipientEmails.split(',')
+  return showsWithRecentEpisodes.length <= 0 ? [bertieEmail] : [bertieEmail]
+}
 
 type Handler = () => Promise<void>
 
@@ -17,9 +24,14 @@ export const handler: Handler = async () => {
     }
 
     const showsWithTheirDetails = await getShowsWithDetails(TV_SHOWS, BASE_URL, apiKey)
-    const withRecentEpisodes = showsWithTheirDetails.filter(show => hasNewEpisode(show.lastAirDate))
+    const showsWithRecentEpisodes = showsWithTheirDetails.filter(show =>
+      hasNewEpisode(show.lastAirDate),
+    )
 
-    await sendEmail(generateMessageBody(withRecentEpisodes), recipientEmails)
+    await sendEmail(
+      generateMessageBody(showsWithRecentEpisodes),
+      filterEmails(recipientEmails, showsWithRecentEpisodes),
+    )
   } catch (error) {
     throw new Error(error)
   }
