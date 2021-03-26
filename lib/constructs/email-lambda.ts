@@ -41,7 +41,7 @@ export class EmailLambda extends Construct {
     const emailLambdaTaskTarget = new LambdaFunction(emailLambda)
 
     new Rule(this, 'ScheduleLambdaRule', {
-      schedule: Schedule.cron({ weekDay: 'TUE', hour: '10', minute: '30' }),
+      schedule: Schedule.cron({ hour: '10', minute: '30' }),
       targets: [emailLambdaTaskTarget],
     })
   }
