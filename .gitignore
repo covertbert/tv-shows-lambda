@@ -11,3 +11,4 @@ cdk.out
 esbuild
 esbuild.json
 coverage
+cdk.context.json

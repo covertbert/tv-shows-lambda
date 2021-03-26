@@ -22,6 +22,7 @@ export class GetLambda extends Construct {
       runtime: Runtime.NODEJS_12_X,
       code: Code.fromAsset('dist'),
       handler: 'get.handler',
+      timeout: Duration.seconds(30),
       role: lambdaRole,
       layers: [
         LayerVersion.fromLayerVersionArn(
