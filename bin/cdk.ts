@@ -18,6 +18,10 @@ if (!recipientEmails) {
   throw new Error('Missing recipient email addresses')
 }
 
+if (!libHoneyApiKey) {
+  throw new Error('Missing Honeycomb API key')
+}
+
 new TvShowsLambdaStack(app, 'TvShowsLambdaStack', {
   apiKey,
   libHoneyApiKey,
