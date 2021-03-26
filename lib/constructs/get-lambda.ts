@@ -32,7 +32,7 @@ export class GetLambda extends Construct {
       ],
       environment: {
         DATABASE_API_KEY: apiKey,
-        LIBHONEY_DATASET: 'tv-shows-get-lambda',
+        LIBHONEY_DATASET: 'tv-shows-lambda',
         LIBHONEY_API_KEY: libHoneyApiKey,
       },
     })

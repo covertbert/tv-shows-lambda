@@ -32,7 +32,7 @@ export class EmailLambda extends Construct {
       environment: {
         DATABASE_API_KEY: apiKey,
         RECIPIENT_EMAILS: recipientEmails,
-        LIBHONEY_DATASET: 'tv-shows-email-lambda',
+        LIBHONEY_DATASET: 'tv-shows-lambda',
         LIBHONEY_API_KEY: libHoneyApiKey,
       },
     })
