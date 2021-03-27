@@ -24,6 +24,7 @@ export class EmailLambda extends Construct {
       code: Code.fromAsset('dist'),
       handler: 'email.handler',
       timeout: Duration.seconds(30),
+      memorySize: 256,
       role: lambdaRole,
       tracing: Tracing.ACTIVE,
       environment: {
