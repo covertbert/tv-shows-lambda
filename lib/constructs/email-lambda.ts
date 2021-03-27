@@ -1,5 +1,5 @@
 import { Construct, StackProps, Duration } from '@aws-cdk/core'
-import { Function, Runtime, Code, LayerVersion } from '@aws-cdk/aws-lambda'
+import { Function, Runtime, Code } from '@aws-cdk/aws-lambda'
 import { Rule, Schedule } from '@aws-cdk/aws-events'
 import { LambdaFunction } from '@aws-cdk/aws-events-targets'
 import { Role } from '@aws-cdk/aws-iam'

@@ -1,11 +1,10 @@
 import { Construct, StackProps, Duration } from '@aws-cdk/core'
-import { Function, Runtime, Code, Tracing } from '@aws-cdk/aws-lambda'
+import { Function as AWSLambdaFunction, Runtime, Code, Tracing } from '@aws-cdk/aws-lambda'
 import { LambdaRestApi } from '@aws-cdk/aws-apigateway'
 import { ARecord, RecordTarget, PublicHostedZone } from '@aws-cdk/aws-route53'
 import { ApiGateway } from '@aws-cdk/aws-route53-targets'
 import { Certificate, ValidationMethod } from '@aws-cdk/aws-certificatemanager'
 import { Role } from '@aws-cdk/aws-iam'
-import { Datadog } from 'datadog-cdk-constructs'
 
 interface ExtendedStackProps extends StackProps {
   lambdaRole: Role
@@ -14,21 +13,14 @@ interface ExtendedStackProps extends StackProps {
 }
 
 export class GetLambda extends Construct {
+  public readonly function: AWSLambdaFunction
+
   constructor(scope: Construct, id: string, props: ExtendedStackProps) {
     super(scope, id)
 
-    const { lambdaRole, apiKey, datadogApiKey } = props
+    const { lambdaRole, apiKey } = props
 
-    const forwarderARN =
-      'arn:aws:lambda:eu-west-2:515213366596:function:datadog-integration-ForwarderStack-JEQLS-Forwarder-1IA2LYZ68W844'
-
-    const datadog = new Datadog(this, 'DatadogLayer', {
-      forwarderARN,
-      apiKey: datadogApiKey,
-      nodeLayerVersion: 50,
-    })
-
-    const getLambda = new Function(this, 'GetMoviesHandler', {
+    const getLambda = new AWSLambdaFunction(this, 'GetMoviesHandler', {
       functionName: 'get-lambda',
       runtime: Runtime.NODEJS_12_X,
       code: Code.fromAsset('dist'),
@@ -41,8 +33,6 @@ export class GetLambda extends Construct {
       },
       tracing: Tracing.ACTIVE,
     })
-
-    datadog.addLambdaFunctions([getLambda])
 
     const certificate = new Certificate(this, 'Certificate', {
       domainName: 'bertie.dev',
@@ -71,5 +61,7 @@ export class GetLambda extends Construct {
       recordName: 'shows.bertie.dev',
       ttl: Duration.seconds(60),
     })
+
+    this.function = getLambda
   }
 }
