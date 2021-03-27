@@ -5,14 +5,12 @@ import { TvShowsLambdaStack } from './tv-shows-lambda-stack'
 
 describe('TvShowsLambdaStack', () => {
   const apiKey = '123'
-  const libHoneyApiKey = '123'
   const recipientEmails = 'dog@cat.com'
 
   const app = new App()
   const stack = new TvShowsLambdaStack(app, 'MyTestStack', {
     apiKey,
     recipientEmails,
-    libHoneyApiKey,
     env: {
       account: '515213366596',
       region: 'eu-west-2',
@@ -51,7 +49,6 @@ describe('TvShowsLambdaStack', () => {
             DATABASE_API_KEY: apiKey,
           },
         },
-        Layers: ['arn:aws:lambda:eu-west-2:702835727665:layer:honeycomb-lambda-extension:6'],
       }),
     )
 

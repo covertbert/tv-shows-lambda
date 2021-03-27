@@ -106,8 +106,7 @@ jobs:
         run: |
           yarn lambda:deploy \
             --context apiKey=${{ secrets.DATABASE_API_KEY }} \
-            --context recipientEmails=${{ secrets.RECIPIENT_EMAILS }} \
-            --context libHoneyApiKey=${{ secrets.LIBHONEY_API_KEY }}
+            --context recipientEmails=${{ secrets.RECIPIENT_EMAILS }}
 
       - name: Write shows from file to Dynamo
         run: npx ts-node ./tools/write-shows-from-file.ts

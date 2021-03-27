@@ -9,14 +9,13 @@ import { Role } from '@aws-cdk/aws-iam'
 interface ExtendedStackProps extends StackProps {
   lambdaRole: Role
   apiKey: string
-  libHoneyApiKey: string
 }
 
 export class GetLambda extends Construct {
   constructor(scope: Construct, id: string, props: ExtendedStackProps) {
     super(scope, id)
 
-    const { lambdaRole, apiKey, libHoneyApiKey } = props
+    const { lambdaRole, apiKey } = props
 
     const getLambda = new Function(this, 'GetMoviesHandler', {
       runtime: Runtime.NODEJS_12_X,
@@ -24,17 +23,8 @@ export class GetLambda extends Construct {
       handler: 'get.handler',
       timeout: Duration.seconds(30),
       role: lambdaRole,
-      layers: [
-        LayerVersion.fromLayerVersionArn(
-          this,
-          'HoneycombLambdaLayer',
-          'arn:aws:lambda:eu-west-2:702835727665:layer:honeycomb-lambda-extension:6',
-        ),
-      ],
       environment: {
         DATABASE_API_KEY: apiKey,
-        LIBHONEY_DATASET: 'tv-shows-lambda',
-        LIBHONEY_API_KEY: libHoneyApiKey,
       },
     })
 

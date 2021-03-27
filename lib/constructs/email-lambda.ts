@@ -7,7 +7,6 @@ import { Role } from '@aws-cdk/aws-iam'
 interface ExtendedStackProps extends StackProps {
   lambdaRole: Role
   apiKey: string
-  libHoneyApiKey: string
   recipientEmails: string
 }
 
@@ -15,7 +14,7 @@ export class EmailLambda extends Construct {
   constructor(scope: Construct, id: string, props: ExtendedStackProps) {
     super(scope, id)
 
-    const { lambdaRole, apiKey, libHoneyApiKey, recipientEmails } = props
+    const { lambdaRole, apiKey, recipientEmails } = props
 
     const emailLambda = new Function(this, 'EmailMoviesHandler', {
       runtime: Runtime.NODEJS_12_X,
@@ -23,18 +22,9 @@ export class EmailLambda extends Construct {
       handler: 'email.handler',
       timeout: Duration.seconds(30),
       role: lambdaRole,
-      layers: [
-        LayerVersion.fromLayerVersionArn(
-          this,
-          'HoneycombLambdaLayer',
-          'arn:aws:lambda:eu-west-2:702835727665:layer:honeycomb-lambda-extension:6',
-        ),
-      ],
       environment: {
         DATABASE_API_KEY: apiKey,
         RECIPIENT_EMAILS: recipientEmails,
-        LIBHONEY_DATASET: 'tv-shows-lambda',
-        LIBHONEY_API_KEY: libHoneyApiKey,
       },
     })
 
