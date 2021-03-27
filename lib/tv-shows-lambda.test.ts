@@ -5,11 +5,13 @@ import { TvShowsLambdaStack } from './tv-shows-lambda-stack'
 
 describe('TvShowsLambdaStack', () => {
   const apiKey = '123'
+  const datadogApiKey = '123'
   const recipientEmails = 'dog@cat.com'
 
   const app = new App()
   const stack = new TvShowsLambdaStack(app, 'MyTestStack', {
     apiKey,
+    datadogApiKey,
     recipientEmails,
     env: {
       account: '515213366596',
@@ -43,10 +45,15 @@ describe('TvShowsLambdaStack', () => {
   test('contains a get lambda with API Gateway & DNS', () => {
     expectCDK(stack).to(
       haveResourceLike('AWS::Lambda::Function', {
-        Handler: 'get.handler',
+        Handler: '/opt/nodejs/node_modules/datadog-lambda-js/handler.handler',
+        Layers: ['arn:aws:lambda:eu-west-2:464622532012:layer:Datadog-Node12-x:50'],
+        MemorySize: 256,
+        Runtime: 'nodejs12.x',
+        Timeout: 30,
         Environment: {
           Variables: {
             DATABASE_API_KEY: apiKey,
+            DD_API_KEY: datadogApiKey,
           },
         },
       }),
