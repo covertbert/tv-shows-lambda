@@ -24,7 +24,6 @@ module.exports = {
     'arrow-body-style': ['error', 'as-needed'],
     'no-console': 1,
     'prefer-template': 1,
-    '@typescript-eslint/no-unused-vars': 0,
     '@typescript-eslint/no-non-null-assertion': 0,
     'jest/no-try-expect': 0,
     'jest/no-conditional-expect': 0,

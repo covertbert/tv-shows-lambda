@@ -3,7 +3,7 @@ import { APIGatewayProxyEventV2 } from 'aws-lambda'
 import { handler, getBody } from './get'
 import { getShowsWithDetails, hasNewEpisode, getShowsFromDB } from '../utils'
 
-import { TV_SHOWS, BASE_URL } from '../constants'
+import { BASE_URL } from '../constants'
 
 const mockTvShow1 = { lastAirDate: '2012-03-23', name: 'Mr Bean' }
 const mockTvShow2 = { lastAirDate: '2014-06-23', name: 'Mr Chong' }
