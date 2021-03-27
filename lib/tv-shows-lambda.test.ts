@@ -25,6 +25,7 @@ describe('TvShowsLambdaStack', () => {
     expectCDK(stack).to(
       haveResourceLike('AWS::Lambda::Function', {
         Handler: '/opt/nodejs/node_modules/datadog-lambda-js/handler.handler',
+        FunctionName: 'email-lambda',
         Tags: [
           {
             Key: 'service',
@@ -56,6 +57,7 @@ describe('TvShowsLambdaStack', () => {
     expectCDK(stack).to(
       haveResourceLike('AWS::Lambda::Function', {
         Handler: '/opt/nodejs/node_modules/datadog-lambda-js/handler.handler',
+        FunctionName: 'get-lambda',
         Layers: ['arn:aws:lambda:eu-west-2:464622532012:layer:Datadog-Node12-x:50'],
         MemorySize: 256,
         Runtime: 'nodejs12.x',
