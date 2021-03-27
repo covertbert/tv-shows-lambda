@@ -22,11 +22,11 @@ describe('TvShowsLambdaStack', () => {
     },
   })
 
-  describe('EmailLambda', () => {
-    it('has an IAM role', () => {
-      expectCDK(stack).to(haveResource('AWS::IAM::Role'))
-    })
+  it('has an IAM role', () => {
+    expectCDK(stack).to(haveResource('AWS::IAM::Role'))
+  })
 
+  describe('EmailLambda', () => {
     it('has a Cloudwatch Events rule', () => {
       expectCDK(stack).to(
         haveResourceLike('AWS::Events::Rule', {
@@ -134,68 +134,134 @@ describe('TvShowsLambdaStack', () => {
     })
   })
 
-  // test('contains a get lambda with API Gateway & DNS', () => {
-  //   expectCDK(stack).to(
-  //     haveResourceLike('AWS::Lambda::Function', {
-  //       Handler: '/opt/nodejs/node_modules/datadog-lambda-js/handler.handler',
-  //       FunctionName: 'get-lambda',
-  //       Layers: ['arn:aws:lambda:eu-west-2:464622532012:layer:Datadog-Node12-x:50'],
-  //       MemorySize: 256,
-  //       Runtime: 'nodejs12.x',
-  //       Tags: [
-  //         {
-  //           Key: 'service',
-  //           Value: 'tv-shows',
-  //         },
-  //         {
-  //           Key: 'env',
-  //           Value: 'prod',
-  //         },
-  //         {
-  //           Key: 'version',
-  //           Value: '1234',
-  //         },
-  //       ],
-  //       Timeout: 30,
-  //       TracingConfig: {
-  //         Mode: 'Active',
-  //       },
-  //       Environment: {
-  //         Variables: {
-  //           DATABASE_API_KEY: apiKey,
-  //           DD_API_KEY: datadogApiKey,
-  //           DD_LAMBDA_HANDLER: 'email.handler',
-  //           DD_TRACE_ENABLED: 'true',
-  //           DD_LOG_INJECTION: 'true',
-  //           DD_FLUSH_TO_LOG: 'true',
-  //         },
-  //       },
-  //     }),
-  //   )
+  describe('GetLambda', () => {
+    it('has a lambda with the right handler name', () => {
+      expectCDK(stack).to(
+        haveResourceLike('AWS::Lambda::Function', {
+          Handler: '/opt/nodejs/node_modules/datadog-lambda-js/handler.handler',
+          FunctionName: 'get-lambda',
+        }),
+      )
+    })
 
-  //   expectCDK(stack).to(
-  //     haveResourceLike('AWS::ApiGateway::RestApi', {
-  //       Name: 'GetMoviesAPI',
-  //     }),
-  //   )
+    it('has a lambda with the right runtime', () => {
+      expectCDK(stack).to(
+        haveResourceLike('AWS::Lambda::Function', {
+          FunctionName: 'get-lambda',
+          Runtime: 'nodejs12.x',
+        }),
+      )
+    })
 
-  //   expectCDK(stack).to(
-  //     haveResourceLike('AWS::ApiGateway::Method', {
-  //       HttpMethod: 'GET',
-  //     }),
-  //   )
+    it('has a lambda with the right layers', () => {
+      expectCDK(stack).to(
+        haveResourceLike('AWS::Lambda::Function', {
+          FunctionName: 'get-lambda',
+          Layers: ['arn:aws:lambda:eu-west-2:464622532012:layer:Datadog-Node12-x:50'],
+        }),
+      )
+    })
 
-  //   expectCDK(stack).to(
-  //     haveResourceLike('AWS::ApiGateway::DomainName', {
-  //       DomainName: 'shows.bertie.dev',
-  //     }),
-  //   )
+    it('has a lambda with the right memory allocation', () => {
+      expectCDK(stack).to(
+        haveResourceLike('AWS::Lambda::Function', {
+          FunctionName: 'get-lambda',
+          MemorySize: 256,
+        }),
+      )
+    })
 
-  //   expectCDK(stack).to(
-  //     haveResourceLike('AWS::Route53::RecordSet', {
-  //       Name: 'shows.bertie.dev.',
-  //       Type: 'A',
-  //     }),
-  //   )
-  // })
+    it('has a lambda with the right stack tags', () => {
+      expectCDK(stack).to(
+        haveResourceLike('AWS::Lambda::Function', {
+          FunctionName: 'get-lambda',
+          Tags: [
+            {
+              Key: 'env',
+              Value: 'prod',
+            },
+            {
+              Key: 'service',
+              Value: 'tv-shows',
+            },
+            {
+              Key: 'version',
+              Value: '1234',
+            },
+          ],
+        }),
+      )
+    })
+
+    it('has a lambda with the right timeout', () => {
+      expectCDK(stack).to(
+        haveResourceLike('AWS::Lambda::Function', {
+          FunctionName: 'get-lambda',
+          Timeout: 30,
+        }),
+      )
+    })
+
+    it('has a lambda with the right tracing config', () => {
+      expectCDK(stack).to(
+        haveResourceLike('AWS::Lambda::Function', {
+          FunctionName: 'get-lambda',
+          TracingConfig: {
+            Mode: 'Active',
+          },
+        }),
+      )
+    })
+
+    it('has a lambda with the right variables', () => {
+      expectCDK(stack).to(
+        haveResourceLike('AWS::Lambda::Function', {
+          FunctionName: 'get-lambda',
+          Environment: {
+            Variables: {
+              DATABASE_API_KEY: apiKey,
+              DD_API_KEY: datadogApiKey,
+              DD_LAMBDA_HANDLER: 'get.handler',
+              DD_TRACE_ENABLED: 'true',
+              DD_LOG_INJECTION: 'true',
+              DD_FLUSH_TO_LOG: 'true',
+            },
+          },
+        }),
+      )
+    })
+
+    it('has an API Gateway REST API', () => {
+      expectCDK(stack).to(
+        haveResourceLike('AWS::ApiGateway::RestApi', {
+          Name: 'GetMoviesAPI',
+        }),
+      )
+    })
+
+    it('has an API Gateway GET method', () => {
+      expectCDK(stack).to(
+        haveResourceLike('AWS::ApiGateway::Method', {
+          HttpMethod: 'GET',
+        }),
+      )
+    })
+
+    it('has an API Gateway domain name', () => {
+      expectCDK(stack).to(
+        haveResourceLike('AWS::ApiGateway::DomainName', {
+          DomainName: 'shows.bertie.dev',
+        }),
+      )
+    })
+
+    it('has a Route53 record set', () => {
+      expectCDK(stack).to(
+        haveResourceLike('AWS::Route53::RecordSet', {
+          Name: 'shows.bertie.dev.',
+          Type: 'A',
+        }),
+      )
+    })
+  })
 })
