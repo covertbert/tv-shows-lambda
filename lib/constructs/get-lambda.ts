@@ -29,6 +29,7 @@ export class GetLambda extends Construct {
     })
 
     const getLambda = new Function(this, 'GetMoviesHandler', {
+      functionName: 'get-lambda',
       runtime: Runtime.NODEJS_12_X,
       code: Code.fromAsset('dist'),
       handler: 'get.handler',

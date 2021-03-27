@@ -1,4 +1,4 @@
-import { Stack, App, StackProps } from '@aws-cdk/core'
+import { Stack, App, StackProps, Tags } from '@aws-cdk/core'
 import { Role, ServicePrincipal, PolicyStatement, ManagedPolicy } from '@aws-cdk/aws-iam'
 import { Table, AttributeType } from '@aws-cdk/aws-dynamodb'
 
@@ -14,6 +14,8 @@ interface ExtendedStackProps extends StackProps {
 export class TvShowsLambdaStack extends Stack {
   constructor(scope: App, id: string, props: ExtendedStackProps) {
     super(scope, id, props)
+
+    Tags.of(this).add('service', 'tv-shows')
 
     const { apiKey, recipientEmails, datadogApiKey } = props
 
@@ -43,10 +45,12 @@ export class TvShowsLambdaStack extends Stack {
       recipientEmails,
     })
 
-    new GetLambda(this, 'GetLambda', {
+    const getLambda = new GetLambda(this, 'GetLambda', {
       lambdaRole,
       apiKey,
       datadogApiKey,
     })
+
+    Tags.of(getLambda).add('service', 'tv-shows')
   }
 }
