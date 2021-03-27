@@ -24,7 +24,17 @@ describe('TvShowsLambdaStack', () => {
 
     expectCDK(stack).to(
       haveResourceLike('AWS::Lambda::Function', {
-        Handler: 'email.handler',
+        Handler: '/opt/nodejs/node_modules/datadog-lambda-js/handler.handler',
+        Tags: [
+          {
+            Key: 'service',
+            Value: 'tv-shows',
+          },
+        ],
+        Timeout: 30,
+        TracingConfig: {
+          Mode: 'Active',
+        },
         Environment: {
           Variables: {
             RECIPIENT_EMAILS: 'dog@cat.com',
@@ -49,7 +59,16 @@ describe('TvShowsLambdaStack', () => {
         Layers: ['arn:aws:lambda:eu-west-2:464622532012:layer:Datadog-Node12-x:50'],
         MemorySize: 256,
         Runtime: 'nodejs12.x',
+        Tags: [
+          {
+            Key: 'service',
+            Value: 'tv-shows',
+          },
+        ],
         Timeout: 30,
+        TracingConfig: {
+          Mode: 'Active',
+        },
         Environment: {
           Variables: {
             DATABASE_API_KEY: apiKey,

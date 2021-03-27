@@ -49,11 +49,12 @@ export class TvShowsLambdaStack extends Stack {
       ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole'),
     )
 
-    new EmailLambda(this, 'EmailLambda', {
+    const emailLambda = new EmailLambda(this, 'EmailLambda', {
       lambdaRole,
       apiKey,
       recipientEmails,
     })
+    Tags.of(emailLambda).add('service', 'tv-shows')
 
     const getLambda = new GetLambda(this, 'GetLambda', {
       lambdaRole,
@@ -62,6 +63,6 @@ export class TvShowsLambdaStack extends Stack {
     })
     Tags.of(getLambda).add('service', 'tv-shows')
 
-    datadog.addLambdaFunctions([getLambda.function])
+    datadog.addLambdaFunctions([getLambda.function, emailLambda.function])
   }
 }
