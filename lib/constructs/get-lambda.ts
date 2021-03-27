@@ -38,6 +38,7 @@ export class GetLambda extends Construct {
       environment: {
         DATABASE_API_KEY: apiKey,
       },
+      tracing: Tracing.ACTIVE,
     })
 
     datadog.addLambdaFunctions([getLambda])
