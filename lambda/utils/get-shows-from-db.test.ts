@@ -26,7 +26,7 @@ describe('getShowsFromDB', () => {
 
     await getShowsFromDB()
 
-    expect(scan).toBeCalledWith({
+    expect(scan).toHaveBeenCalledWith({
       TableName: 'TVShowsTable',
     })
   })

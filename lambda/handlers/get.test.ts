@@ -33,7 +33,7 @@ describe('handler', () => {
 
     await handler(mockAPIGatewayProxyEvent)
 
-    expect(getShowsWithDetails).toBeCalledWith(
+    expect(getShowsWithDetails).toHaveBeenCalledWith(
       [mockShowFromDB],
       BASE_URL,
       process.env.DATABASE_API_KEY,
@@ -45,7 +45,7 @@ describe('handler', () => {
 
     await handler(mockAPIGatewayProxyEvent)
 
-    expect(getShowsFromDB).toBeCalled()
+    expect(getShowsFromDB).toHaveBeenCalled()
   })
 
   it('returns the correct shows and totalCount when given no params', async () => {
@@ -95,7 +95,7 @@ describe('getBody', () => {
 
     getBody(queryStringParameters, showsWithTheirDetails)
 
-    expect(hasNewEpisode).toBeCalledWith(mockTvShow1.lastAirDate)
+    expect(hasNewEpisode).toHaveBeenCalledWith(mockTvShow1.lastAirDate)
   })
 
   it('returns body containing filtered shows when withRecentEpisodes is true', async () => {

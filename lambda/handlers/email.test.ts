@@ -20,7 +20,7 @@ describe('handler', () => {
   it('throws an error when an API key is missing', async () => {
     await expect(async () => {
       await handler()
-    }).rejects.toThrowError('Movie DB API key missing')
+    }).rejects.toThrow('Movie DB API key missing')
   })
 
   it('throws an error when an recipient addresses are missing', async () => {
@@ -28,7 +28,7 @@ describe('handler', () => {
 
     await expect(async () => {
       await handler()
-    }).rejects.toThrowError('Recipient emails missing')
+    }).rejects.toThrow('Recipient emails missing')
   })
 
   it('calls getShowsWithDetails with correct inputs', async () => {
@@ -37,7 +37,11 @@ describe('handler', () => {
 
     await handler()
 
-    expect(getShowsWithDetails).toBeCalledWith(TV_SHOWS, BASE_URL, process.env.DATABASE_API_KEY)
+    expect(getShowsWithDetails).toHaveBeenCalledWith(
+      TV_SHOWS,
+      BASE_URL,
+      process.env.DATABASE_API_KEY,
+    )
   })
 
   it('calls hasNewEpisode with correct inputs', async () => {
@@ -46,7 +50,7 @@ describe('handler', () => {
 
     await handler()
 
-    expect(hasNewEpisode).toBeCalledWith(mockTvShow.lastAirDate)
+    expect(hasNewEpisode).toHaveBeenCalledWith(mockTvShow.lastAirDate)
   })
 
   it('calls sendEmail with correct inputs', async () => {
@@ -55,7 +59,7 @@ describe('handler', () => {
 
     await handler()
 
-    expect(sendEmail).toBeCalledWith(generateMessageBody([mockTvShow]), [expectedEmail])
+    expect(sendEmail).toHaveBeenCalledWith(generateMessageBody([mockTvShow]), [expectedEmail])
   })
 
   it('calls generateMessageBody with correct inputs', async () => {
@@ -64,7 +68,7 @@ describe('handler', () => {
 
     await handler()
 
-    expect(generateMessageBody).toBeCalledWith([mockTvShow])
+    expect(generateMessageBody).toHaveBeenCalledWith([mockTvShow])
   })
 })
 

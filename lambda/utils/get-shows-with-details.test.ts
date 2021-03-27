@@ -18,7 +18,7 @@ describe('getShowsWithDetails', () => {
 
     const expectedResult = `${baseURL}/${tvShows[0].id}?api_key=${apiKey}`
 
-    expect(fetch).toBeCalledWith(expectedResult)
+    expect(fetch).toHaveBeenCalledWith(expectedResult)
   })
 
   it('returns shows with details when given the correct inputs', async () => {
@@ -34,6 +34,6 @@ describe('getShowsWithDetails', () => {
 
     await expect(async () => {
       await getShowsWithDetails(tvShows, baseURL, apiKey)
-    }).rejects.toThrowError()
+    }).rejects.toThrow()
   })
 })

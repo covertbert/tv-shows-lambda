@@ -1,3 +1,4 @@
+/* eslint-disable jest/expect-expect */
 import { App } from '@aws-cdk/core'
 import { expect as expectCDK, haveResource, haveResourceLike } from '@aws-cdk/assert'
 
