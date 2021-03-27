@@ -8,12 +8,14 @@ describe('TvShowsLambdaStack', () => {
   const apiKey = '123'
   const datadogApiKey = '123'
   const recipientEmails = 'dog@cat.com'
+  const versionFromGitHubActions = '1234'
 
   const app = new App()
   const stack = new TvShowsLambdaStack(app, 'MyTestStack', {
     apiKey,
     datadogApiKey,
     recipientEmails,
+    versionFromGitHubActions,
     env: {
       account: '515213366596',
       region: 'eu-west-2',
@@ -31,6 +33,14 @@ describe('TvShowsLambdaStack', () => {
           {
             Key: 'service',
             Value: 'tv-shows',
+          },
+          {
+            Key: 'env',
+            Value: 'prod',
+          },
+          {
+            Key: 'version',
+            Value: '1234',
           },
         ],
         Timeout: 30,
@@ -66,6 +76,14 @@ describe('TvShowsLambdaStack', () => {
           {
             Key: 'service',
             Value: 'tv-shows',
+          },
+          {
+            Key: 'env',
+            Value: 'prod',
+          },
+          {
+            Key: 'version',
+            Value: '1234',
           },
         ],
         Timeout: 30,

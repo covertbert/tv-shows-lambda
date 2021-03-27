@@ -10,15 +10,18 @@ interface ExtendedStackProps extends StackProps {
   apiKey: string
   datadogApiKey: string
   recipientEmails: string
+  versionFromGitHubActions: string
 }
 
 export class TvShowsLambdaStack extends Stack {
   constructor(scope: App, id: string, props: ExtendedStackProps) {
     super(scope, id, props)
 
-    Tags.of(this).add('service', 'tv-shows')
+    const { apiKey, recipientEmails, datadogApiKey, versionFromGitHubActions } = props
 
-    const { apiKey, recipientEmails, datadogApiKey } = props
+    Tags.of(this).add('service', 'tv-shows')
+    Tags.of(this).add('env', 'prod')
+    Tags.of(this).add('version', versionFromGitHubActions)
 
     const datadogForwarderArn =
       'arn:aws:lambda:eu-west-2:515213366596:function:datadog-integration-ForwarderStack-JEQLS-Forwarder-1IA2LYZ68W844'
@@ -55,6 +58,8 @@ export class TvShowsLambdaStack extends Stack {
       recipientEmails,
     })
     Tags.of(emailLambda).add('service', 'tv-shows')
+    Tags.of(emailLambda).add('env', 'prod')
+    Tags.of(emailLambda).add('version', versionFromGitHubActions)
 
     const getLambda = new GetLambda(this, 'GetLambda', {
       lambdaRole,
@@ -62,6 +67,8 @@ export class TvShowsLambdaStack extends Stack {
       datadogApiKey,
     })
     Tags.of(getLambda).add('service', 'tv-shows')
+    Tags.of(getLambda).add('env', 'prod')
+    Tags.of(getLambda).add('version', versionFromGitHubActions)
 
     datadog.addLambdaFunctions([getLambda.function, emailLambda.function])
   }
