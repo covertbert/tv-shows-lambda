@@ -1,6 +1,6 @@
 import { Construct, StackProps, Duration } from '@aws-cdk/core'
 import { Function as AWSLambdaFunction, Runtime, Code, Tracing } from '@aws-cdk/aws-lambda'
-import { LambdaRestApi } from '@aws-cdk/aws-apigateway'
+import { RestApi, LambdaIntegration } from '@aws-cdk/aws-apigateway'
 import { ARecord, RecordTarget, PublicHostedZone } from '@aws-cdk/aws-route53'
 import { ApiGateway } from '@aws-cdk/aws-route53-targets'
 import { Certificate, ValidationMethod } from '@aws-cdk/aws-certificatemanager'
@@ -20,7 +20,7 @@ export class GetLambda extends Construct {
 
     const { lambdaRole, apiKey } = props
 
-    const getLambda = new AWSLambdaFunction(this, 'GetMoviesHandler', {
+    const getLambda = new AWSLambdaFunction(this, 'GetTVShowsHandler', {
       functionName: 'get-lambda',
       runtime: Runtime.NODEJS_12_X,
       code: Code.fromAsset('dist'),
@@ -40,24 +40,25 @@ export class GetLambda extends Construct {
       validationMethod: ValidationMethod.DNS,
     })
 
-    const getApi = new LambdaRestApi(this, 'GetMoviesAPI', {
-      handler: getLambda,
-      proxy: false,
+    const api = new RestApi(this, 'TVShowsAPI', {
+      restApiName: 'TVShows API',
+      description: 'This service returns TV Shows with new episodes',
     })
-
-    getApi.addDomainName('DomainName', {
+    api.addDomainName('DomainName', {
       domainName: 'shows.bertie.dev',
       certificate: certificate,
     })
 
-    const shows = getApi.root.addResource('shows')
-    shows.addMethod('GET')
+    const getTVShowsIntegration = new LambdaIntegration(getLambda, {
+      requestTemplates: { 'application/json': '{ "statusCode": "200" }' },
+    })
+    const shows = api.root.addResource('shows')
+    shows.addMethod('GET', getTVShowsIntegration)
 
     const zone = PublicHostedZone.fromLookup(this, 'HostedZone', { domainName: 'bertie.dev' })
-
     new ARecord(this, 'AliasRecord', {
       zone,
-      target: RecordTarget.fromAlias(new ApiGateway(getApi)),
+      target: RecordTarget.fromAlias(new ApiGateway(api)),
       recordName: 'shows.bertie.dev',
       ttl: Duration.seconds(60),
     })

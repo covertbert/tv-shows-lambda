@@ -234,7 +234,7 @@ describe('TvShowsLambdaStack', () => {
     it('has an API Gateway REST API', () => {
       expectCDK(stack).to(
         haveResourceLike('AWS::ApiGateway::RestApi', {
-          Name: 'GetMoviesAPI',
+          Name: 'TVShows API',
         }),
       )
     })
