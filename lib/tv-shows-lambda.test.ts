@@ -239,6 +239,43 @@ describe('TvShowsLambdaStack', () => {
       )
     })
 
+    it('has an API stage with logging enabled', () => {
+      expectCDK(stack).to(
+        haveResourceLike('AWS::ApiGateway::Stage', {
+          StageName: 'prod',
+          MethodSettings: [
+            {
+              HttpMethod: '*',
+              LoggingLevel: 'INFO',
+              ResourcePath: '/*',
+            },
+          ],
+        }),
+      )
+    })
+
+    it('has an API stage with the correct tags', () => {
+      expectCDK(stack).to(
+        haveResourceLike('AWS::ApiGateway::Stage', {
+          StageName: 'prod',
+          Tags: [
+            {
+              Key: 'env',
+              Value: 'prod',
+            },
+            {
+              Key: 'service',
+              Value: 'tv-shows',
+            },
+            {
+              Key: 'version',
+              Value: '1234',
+            },
+          ],
+        }),
+      )
+    })
+
     it('has an API Gateway GET method', () => {
       expectCDK(stack).to(
         haveResourceLike('AWS::ApiGateway::Method', {
