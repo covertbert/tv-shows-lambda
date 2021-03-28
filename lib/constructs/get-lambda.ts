@@ -1,10 +1,17 @@
 import { Construct, StackProps, Duration } from '@aws-cdk/core'
 import { Function as AWSLambdaFunction, Runtime, Code, Tracing } from '@aws-cdk/aws-lambda'
-import { RestApi, LambdaIntegration } from '@aws-cdk/aws-apigateway'
+import {
+  RestApi,
+  LambdaIntegration,
+  LogGroupLogDestination,
+  AccessLogFormat,
+  MethodLoggingLevel,
+} from '@aws-cdk/aws-apigateway'
 import { ARecord, RecordTarget, PublicHostedZone } from '@aws-cdk/aws-route53'
 import { ApiGateway } from '@aws-cdk/aws-route53-targets'
 import { Certificate, ValidationMethod } from '@aws-cdk/aws-certificatemanager'
 import { Role } from '@aws-cdk/aws-iam'
+import { LogGroup } from '@aws-cdk/aws-logs'
 
 interface ExtendedStackProps extends StackProps {
   lambdaRole: Role
@@ -40,9 +47,17 @@ export class GetLambda extends Construct {
       validationMethod: ValidationMethod.DNS,
     })
 
+    const prodLogGroup = new LogGroup(this, 'ProdLogs', {
+      logGroupName: '/api-gateway/tv-shows-api',
+    })
     const api = new RestApi(this, 'TVShowsAPI', {
       restApiName: 'TVShows API',
       description: 'This service returns TV Shows with new episodes',
+      deployOptions: {
+        accessLogDestination: new LogGroupLogDestination(prodLogGroup),
+        accessLogFormat: AccessLogFormat.jsonWithStandardFields(),
+        loggingLevel: MethodLoggingLevel.INFO,
+      },
     })
     api.addDomainName('DomainName', {
       domainName: 'shows.bertie.dev',

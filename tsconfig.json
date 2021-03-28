@@ -17,5 +17,5 @@
     "esModuleInterop": true
   },
   "exclude": ["cdk.out"],
-  "include": ["lambda/**/*"]
+  "include": ["lambda/**/*", "lib/**/*"]
 }
