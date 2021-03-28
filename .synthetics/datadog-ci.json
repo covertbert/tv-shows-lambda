@@ -1,0 +1,4 @@
+{
+  "datadogSite": "datadoghq.eu",
+  "files": "./.synthetics/tests/*.synthetics.json"
+}
