@@ -239,6 +239,25 @@ describe('TvShowsLambdaStack', () => {
       )
     })
 
+    it('has Cloudwatch log group', () => {
+      expectCDK(stack).to(
+        haveResourceLike('AWS::Logs::LogGroup', {
+          LogGroupName: '/api-gateway/tv-shows-api',
+        }),
+      )
+    })
+
+    it('has Cloudwatch log group subscription filter', () => {
+      expectCDK(stack).to(
+        haveResourceLike('AWS::Logs::SubscriptionFilter', {
+          DestinationArn:
+            'arn:aws:lambda:eu-west-2:515213366596:function:datadog-integration-ForwarderStack-JEQLS-Forwarder-1IA2LYZ68W844',
+          FilterPattern: '',
+          LogGroupName: '/api-gateway/tv-shows-api',
+        }),
+      )
+    })
+
     it('has an API stage with logging enabled', () => {
       expectCDK(stack).to(
         haveResourceLike('AWS::ApiGateway::Stage', {
