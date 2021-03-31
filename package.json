@@ -39,7 +39,7 @@
     "@typescript-eslint/parser": "^4.19.0",
     "aws-cdk": "1.95.1",
     "datadog-cdk-constructs": "^0.1.8",
-    "esbuild": "^0.11.1",
+    "esbuild": "^0.11.2",
     "eslint": "^7.23.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-jest": "^24.3.2",
