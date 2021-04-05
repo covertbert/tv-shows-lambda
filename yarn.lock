@@ -1082,10 +1082,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@datadog/datadog-ci@^0.11.2":
-  version "0.11.2"
-  resolved "https://registry.yarnpkg.com/@datadog/datadog-ci/-/datadog-ci-0.11.2.tgz#7bdd997aa09c341d09882cfe1b74af0a636dc031"
-  integrity sha512-K8FV4YftoOeUL6Um1EDFhCBwn0pwyf4s8JFHewzYFAeiB13TVYWJOfUy1W85Xj7a9Vj0KRf5BL6WXusmheB6Bg==
+"@datadog/datadog-ci@^0.11.4":
+  version "0.11.4"
+  resolved "https://registry.yarnpkg.com/@datadog/datadog-ci/-/datadog-ci-0.11.4.tgz#4a7245da930f6dd4b232144c9dcbca0d02fd808e"
+  integrity sha512-9PM2mxkiWQpMvkg7XKlh/Ojyk8tVTcmzz1Wce+NNu5eIKz4A9htxJEnbMcZ/B0h81BEZOod++1q42quyIxITCw==
   dependencies:
     async-retry "1.3.1"
     aws-sdk "2.682.0"
