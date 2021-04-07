@@ -37,7 +37,7 @@
     "@types/node-fetch": "^2.5.9",
     "@typescript-eslint/eslint-plugin": "^4.21.0",
     "@typescript-eslint/parser": "^4.19.0",
-    "aws-cdk": "1.96.0",
+    "aws-cdk": "1.97.0",
     "datadog-cdk-constructs": "^0.1.8",
     "esbuild": "^0.11.5",
     "eslint": "^7.23.0",
