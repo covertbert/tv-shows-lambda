@@ -1,13 +1,19 @@
+import MockDate from 'mockdate'
+
 import { hasNewEpisode } from '.'
 
-describe('hasNewEpisode', () => {
-  it('returns true when input is less than or equal to 1 month ago', () => {
-    const mockDate = new Date()
+beforeAll(() => {
+  MockDate.set('2020-03-22')
+})
 
-    expect(hasNewEpisode(mockDate.toISOString().split('T')[0])).toEqual(true)
+describe('hasNewEpisode', () => {
+  it('returns true when input is less than or equal to 48 hours ago', () => {
+    const dateToday = '2020-03-22'
+    expect(hasNewEpisode(dateToday)).toEqual(true)
   })
 
-  it('returns false when input is more than 7 days ago', () => {
-    expect(hasNewEpisode('2012-03-29')).toEqual(false)
+  it('returns false when input is more than 48 hours ago', () => {
+    const dateTwoDaysAgo = '2020-03-20'
+    expect(hasNewEpisode(dateTwoDaysAgo)).toEqual(false)
   })
 })
