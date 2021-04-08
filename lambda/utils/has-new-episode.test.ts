@@ -1,9 +1,9 @@
-import MockDate from 'mockdate'
+import { set as setDate } from 'mockdate'
 
 import { hasNewEpisode } from '.'
 
 beforeAll(() => {
-  MockDate.set('2020-03-22')
+  setDate('2020-03-22')
 })
 
 describe('hasNewEpisode', () => {
