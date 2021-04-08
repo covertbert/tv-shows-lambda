@@ -6,14 +6,12 @@ import { TvShowsLambdaStack } from './tv-shows-lambda-stack'
 
 describe('TvShowsLambdaStack', () => {
   const apiKey = '123'
-  const datadogApiKey = '123'
   const recipientEmails = 'dog@cat.com'
   const versionFromGitHubActions = '1234'
 
   const app = new App()
   const stack = new TvShowsLambdaStack(app, 'MyTestStack', {
     apiKey,
-    datadogApiKey,
     recipientEmails,
     versionFromGitHubActions,
     env: {
@@ -39,7 +37,7 @@ describe('TvShowsLambdaStack', () => {
     it('has a lambda with the right handler name', () => {
       expectCDK(stack).to(
         haveResourceLike('AWS::Lambda::Function', {
-          Handler: '/opt/nodejs/node_modules/datadog-lambda-js/handler.handler',
+          Handler: 'email.handler',
           FunctionName: 'email-lambda',
         }),
       )
@@ -50,15 +48,6 @@ describe('TvShowsLambdaStack', () => {
         haveResourceLike('AWS::Lambda::Function', {
           FunctionName: 'email-lambda',
           Runtime: 'nodejs12.x',
-        }),
-      )
-    })
-
-    it('has a lambda with the right layers', () => {
-      expectCDK(stack).to(
-        haveResourceLike('AWS::Lambda::Function', {
-          FunctionName: 'email-lambda',
-          Layers: ['arn:aws:lambda:eu-west-2:464622532012:layer:Datadog-Node12-x:50'],
         }),
       )
     })
@@ -122,11 +111,6 @@ describe('TvShowsLambdaStack', () => {
             Variables: {
               RECIPIENT_EMAILS: 'dog@cat.com',
               DATABASE_API_KEY: apiKey,
-              DD_LAMBDA_HANDLER: 'email.handler',
-              DD_TRACE_ENABLED: 'true',
-              DD_LOG_INJECTION: 'true',
-              DD_FLUSH_TO_LOG: 'true',
-              DD_API_KEY: '123',
             },
           },
         }),
@@ -138,7 +122,7 @@ describe('TvShowsLambdaStack', () => {
     it('has a lambda with the right handler name', () => {
       expectCDK(stack).to(
         haveResourceLike('AWS::Lambda::Function', {
-          Handler: '/opt/nodejs/node_modules/datadog-lambda-js/handler.handler',
+          Handler: 'get.handler',
           FunctionName: 'get-lambda',
         }),
       )
@@ -149,15 +133,6 @@ describe('TvShowsLambdaStack', () => {
         haveResourceLike('AWS::Lambda::Function', {
           FunctionName: 'get-lambda',
           Runtime: 'nodejs12.x',
-        }),
-      )
-    })
-
-    it('has a lambda with the right layers', () => {
-      expectCDK(stack).to(
-        haveResourceLike('AWS::Lambda::Function', {
-          FunctionName: 'get-lambda',
-          Layers: ['arn:aws:lambda:eu-west-2:464622532012:layer:Datadog-Node12-x:50'],
         }),
       )
     })
@@ -220,11 +195,6 @@ describe('TvShowsLambdaStack', () => {
           Environment: {
             Variables: {
               DATABASE_API_KEY: apiKey,
-              DD_API_KEY: datadogApiKey,
-              DD_LAMBDA_HANDLER: 'get.handler',
-              DD_TRACE_ENABLED: 'true',
-              DD_LOG_INJECTION: 'true',
-              DD_FLUSH_TO_LOG: 'true',
             },
           },
         }),

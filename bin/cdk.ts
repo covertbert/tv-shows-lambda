@@ -7,7 +7,6 @@ import { TvShowsLambdaStack } from '../lib/tv-shows-lambda-stack'
 const app = new App()
 
 const apiKey: string | undefined = app.node.tryGetContext('apiKey')
-const datadogApiKey: string | undefined = app.node.tryGetContext('datadogApiKey')
 const recipientEmails: string | undefined = app.node.tryGetContext('recipientEmails')
 const versionFromGitHubActions: string | undefined = app.node.tryGetContext(
   'versionFromGitHubActions',
@@ -21,13 +20,8 @@ if (!recipientEmails) {
   throw new Error('Missing recipient email addresses')
 }
 
-if (!datadogApiKey) {
-  throw new Error('Missing Datadog API key')
-}
-
 new TvShowsLambdaStack(app, 'TvShowsLambdaStack', {
   apiKey,
-  datadogApiKey,
   recipientEmails,
   versionFromGitHubActions: versionFromGitHubActions || 'local',
   env: {

@@ -101,7 +101,6 @@ jobs:
           yarn lambda:deploy \
             --context apiKey=${{ secrets.DATABASE_API_KEY }} \
             --context recipientEmails=${{ secrets.RECIPIENT_EMAILS }} \
-            --context datadogApiKey=${{ secrets.DD_API_KEY }} \
             --context versionFromGitHubActions=${{ github.run_id }}
 
       - name: Write shows from file to Dynamo
@@ -129,5 +128,5 @@ jobs:
         if: steps.cache-node-modules.outputs.cache-hit != 'true'
         run: yarn install --frozen-lockfile
 
-      - name: Synthetics test REST endpoints
-        run: yarn datadog:synthetics
+      - name: Smoke test
+        run: ./tools/smoke.sh

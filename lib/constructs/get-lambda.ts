@@ -16,7 +16,6 @@ import { LogGroup, CfnSubscriptionFilter } from '@aws-cdk/aws-logs'
 interface ExtendedStackProps extends StackProps {
   lambdaRole: Role
   apiKey: string
-  datadogApiKey: string
 }
 
 export class GetLambda extends Construct {
