@@ -36,6 +36,8 @@ describe('writeShowToDB', () => {
 
     writeShowToDB(input)
 
+    expect(dynamoMock).toHaveBeenCalledWith({ apiVersion: '2012-08-10', region: 'eu-west-2' })
+
     expect(putItem).toHaveBeenCalledWith(expectedOutput)
   })
 
