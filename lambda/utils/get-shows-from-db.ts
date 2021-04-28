@@ -19,6 +19,6 @@ export const getShowsFromDB: GetShowsFromDB = async () => {
       name: show.name!.S!,
     }))
   } catch (e) {
-    throw new Error(e)
+    throw new Error(e.message)
   }
 }

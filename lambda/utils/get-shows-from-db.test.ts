@@ -42,14 +42,10 @@ describe('getShowsFromDB', () => {
   it('throws an error when the db scan fails', async () => {
     dynamoMock.mockImplementationOnce(() => ({
       scan: jest.fn().mockImplementationOnce(() => {
-        throw 'Big bad error'
+        throw new Error('Big bad error')
       }),
     }))
 
-    try {
-      await getShowsFromDB()
-    } catch (e) {
-      expect(e.message).toEqual('Big bad error')
-    }
+    await expect(getShowsFromDB()).rejects.toEqual(new Error('Big bad error'))
   })
 })

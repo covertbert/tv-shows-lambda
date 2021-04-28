@@ -22,6 +22,6 @@ export const writeShowToDB: WriteShowToDB = async show => {
   try {
     await ddb.putItem(params).promise()
   } catch (e) {
-    throw new Error(e)
+    throw new Error(e.message)
   }
 }

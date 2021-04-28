@@ -42,14 +42,10 @@ describe('writeShowToDB', () => {
   it('throws an error when the db put fails', async () => {
     dynamoMock.mockImplementationOnce(() => ({
       putItem: jest.fn().mockImplementationOnce(() => {
-        throw 'Big bad error'
+        throw new Error('Big bad error')
       }),
     }))
 
-    try {
-      await writeShowToDB(input)
-    } catch (e) {
-      expect(e.message).toEqual('Big bad error')
-    }
+    await expect(writeShowToDB(input)).rejects.toEqual(new Error('Big bad error'))
   })
 })
