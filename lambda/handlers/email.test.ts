@@ -14,7 +14,7 @@ jest.mock('../utils', () => ({
 }))
 
 describe('handler', () => {
-  const expectedEmail = 'dog@cat.com'
+  const expectedEmails = 'dog@cat.com,cat@cat.com'
   const expectedApiKey = '123456'
 
   it('throws an error when an API key is missing', async () => {
@@ -33,7 +33,7 @@ describe('handler', () => {
 
   it('calls getShowsWithDetails with correct inputs', async () => {
     process.env.DATABASE_API_KEY = expectedApiKey
-    process.env.RECIPIENT_EMAILS = expectedEmail
+    process.env.RECIPIENT_EMAILS = expectedEmails
 
     await handler()
 
@@ -46,7 +46,7 @@ describe('handler', () => {
 
   it('calls hasNewEpisode with correct inputs', async () => {
     process.env.DATABASE_API_KEY = expectedApiKey
-    process.env.RECIPIENT_EMAILS = expectedEmail
+    process.env.RECIPIENT_EMAILS = expectedEmails
 
     await handler()
 
@@ -55,16 +55,19 @@ describe('handler', () => {
 
   it('calls sendEmail with correct inputs', async () => {
     process.env.DATABASE_API_KEY = expectedApiKey
-    process.env.RECIPIENT_EMAILS = expectedEmail
+    process.env.RECIPIENT_EMAILS = expectedEmails
 
     await handler()
 
-    expect(sendEmail).toHaveBeenCalledWith(generateMessageBody([mockTvShow]), [expectedEmail])
+    expect(sendEmail).toHaveBeenCalledWith(
+      generateMessageBody([mockTvShow]),
+      expectedEmails.split(','),
+    )
   })
 
   it('calls generateMessageBody with correct inputs', async () => {
     process.env.DATABASE_API_KEY = expectedApiKey
-    process.env.RECIPIENT_EMAILS = expectedEmail
+    process.env.RECIPIENT_EMAILS = expectedEmails
 
     await handler()
 
@@ -82,9 +85,9 @@ describe('filterEmails', () => {
     expect(filterEmails(inputs, mockShowsWithRecentEpisodes)).toEqual(expectedResults)
   })
 
-  it('only returns the first email when showsWithRecentEpisodes length is more than zero', () => {
+  it('only returns both emails when showsWithRecentEpisodes length is more than zero', () => {
     const inputs = 'email1@email.com,email2@email.com'
-    const expectedResults = ['email1@email.com']
+    const expectedResults = ['email1@email.com', 'email2@email.com']
 
     const mockShowsWithRecentEpisodes: ShowsWithDetails = [
       { lastAirDate: '2012-11-21', name: 'Mr Bean' },

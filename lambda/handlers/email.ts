@@ -4,8 +4,8 @@ import { ShowsWithDetails } from '../types'
 
 type FilterEmails = (recipientEmails: string, showsWithRecentEpisodes: ShowsWithDetails) => string[]
 export const filterEmails: FilterEmails = (recipientEmails, showsWithRecentEpisodes) => {
-  const [bertieEmail] = recipientEmails.split(',')
-  return showsWithRecentEpisodes.length <= 0 ? [bertieEmail] : [bertieEmail]
+  const [bertieEmail, stephEmail] = recipientEmails.split(',')
+  return showsWithRecentEpisodes.length <= 0 ? [bertieEmail] : [bertieEmail, stephEmail]
 }
 
 type Handler = () => Promise<void>
