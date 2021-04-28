@@ -31,7 +31,6 @@ export class GetLambda extends Construct {
       entry: './lambda/handlers/get.ts',
       functionName: 'get-lambda',
       runtime: Runtime.NODEJS_12_X,
-      handler: 'get.handler',
       timeout: Duration.seconds(30),
       memorySize: 256,
       role: lambdaRole,
