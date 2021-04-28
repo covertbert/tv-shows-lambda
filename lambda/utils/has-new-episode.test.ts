@@ -12,6 +12,11 @@ describe('hasNewEpisode', () => {
     expect(hasNewEpisode(dateToday)).toEqual(true)
   })
 
+  it('returns true when input is exactly 48 hours ago', () => {
+    const dateToday = '2020-03-20'
+    expect(hasNewEpisode(dateToday)).toEqual(true)
+  })
+
   it('returns false when input is more than 48 hours ago', () => {
     const dateThreeDaysAgo = '2020-03-19'
     expect(hasNewEpisode(dateThreeDaysAgo)).toEqual(false)
