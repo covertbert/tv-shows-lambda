@@ -37,7 +37,6 @@ describe('TvShowsLambdaStack', () => {
     it('has a lambda with the right handler name', () => {
       expectCDK(stack).to(
         haveResourceLike('AWS::Lambda::Function', {
-          Handler: 'email.handler',
           FunctionName: 'email-lambda',
         }),
       )
@@ -122,7 +121,6 @@ describe('TvShowsLambdaStack', () => {
     it('has a lambda with the right handler name', () => {
       expectCDK(stack).to(
         haveResourceLike('AWS::Lambda::Function', {
-          Handler: 'get.handler',
           FunctionName: 'get-lambda',
         }),
       )
