@@ -7,7 +7,7 @@
   },
   "scripts": {
     "watch": "tsc -w",
-    "test": "yarn lambda:build; jest --coverage",
+    "test": "jest",
     "cdk": "cdk",
     "tsc": "tsc -p tsconfig.json --noEmit",
     "lambda:deploy": "cdk deploy --require-approval never",

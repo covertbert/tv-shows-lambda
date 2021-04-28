@@ -81,6 +81,22 @@ describe('handler', () => {
 
     expect(response.statusCode).toEqual(200)
   })
+
+  it('returns headers when all is good', async () => {
+    process.env.DATABASE_API_KEY = expectedApiKey
+
+    const response = await handler(mockAPIGatewayProxyEvent)
+
+    expect(response.headers).toEqual({
+      'Strict-Transport-Security': 'max-age=31536000; includeSubDomains; preload',
+      'X-Content-Type-Options': 'nosniff',
+      'X-XSS-Protection': '1',
+      'Cache-Control':
+        'max-age=0; Expires=-1 or Expires: Fri, 01 Jan 1990 00:00:00 GMT; no-cache, no-store, must-revalidate',
+      Pragma: 'no-cache',
+      'Access-Control-Allow-Origin': '*',
+    })
+  })
 })
 
 describe('getBody', () => {
