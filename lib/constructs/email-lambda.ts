@@ -1,5 +1,6 @@
 import { Construct, StackProps, Duration } from '@aws-cdk/core'
-import { Function as AWSLambdaFunction, Runtime, Code, Tracing } from '@aws-cdk/aws-lambda'
+import { NodejsFunction } from '@aws-cdk/aws-lambda-nodejs'
+import { Runtime, Tracing } from '@aws-cdk/aws-lambda'
 import { Rule, Schedule } from '@aws-cdk/aws-events'
 import { LambdaFunction } from '@aws-cdk/aws-events-targets'
 import { Role } from '@aws-cdk/aws-iam'
@@ -11,17 +12,17 @@ interface ExtendedStackProps extends StackProps {
 }
 
 export class EmailLambda extends Construct {
-  public readonly function: AWSLambdaFunction
+  public readonly function: NodejsFunction
 
   constructor(scope: Construct, id: string, props: ExtendedStackProps) {
     super(scope, id)
 
     const { lambdaRole, apiKey, recipientEmails } = props
 
-    const emailLambda = new AWSLambdaFunction(this, 'EmailMoviesHandler', {
+    const emailLambda = new NodejsFunction(this, 'EmailMoviesHandler', {
+      entry: './lambda/handlers/email.ts',
       functionName: 'email-lambda',
       runtime: Runtime.NODEJS_12_X,
-      code: Code.fromAsset('dist'),
       handler: 'email.handler',
       timeout: Duration.seconds(30),
       memorySize: 256,

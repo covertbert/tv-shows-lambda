@@ -1,6 +1,6 @@
 module.exports = {
   hooks: {
-    'pre-commit': 'yarn lambda:build && lint-staged',
+    'pre-commit': 'lint-staged',
     'post-merge': 'yarn',
   },
 }

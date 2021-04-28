@@ -88,9 +88,6 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-west-1
 
-      - name: Build
-        run: yarn lambda:build
-
       - name: Block concurrent runs
         uses: softprops/turnstyle@v1
         env:

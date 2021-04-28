@@ -1,5 +1,6 @@
 import { Construct, StackProps, Duration } from '@aws-cdk/core'
-import { Function as AWSLambdaFunction, Runtime, Code, Tracing } from '@aws-cdk/aws-lambda'
+import { NodejsFunction } from '@aws-cdk/aws-lambda-nodejs'
+import { Runtime, Tracing } from '@aws-cdk/aws-lambda'
 import {
   RestApi,
   LambdaIntegration,
@@ -19,17 +20,17 @@ interface ExtendedStackProps extends StackProps {
 }
 
 export class GetLambda extends Construct {
-  public readonly function: AWSLambdaFunction
+  public readonly function: NodejsFunction
 
   constructor(scope: Construct, id: string, props: ExtendedStackProps) {
     super(scope, id)
 
     const { lambdaRole, apiKey } = props
 
-    const getLambda = new AWSLambdaFunction(this, 'GetTVShowsHandler', {
+    const getLambda = new NodejsFunction(this, 'GetTVShowsHandler', {
+      entry: './lambda/handlers/get.ts',
       functionName: 'get-lambda',
       runtime: Runtime.NODEJS_12_X,
-      code: Code.fromAsset('dist'),
       handler: 'get.handler',
       timeout: Duration.seconds(30),
       memorySize: 256,
@@ -38,6 +39,10 @@ export class GetLambda extends Construct {
         DATABASE_API_KEY: apiKey,
       },
       tracing: Tracing.ACTIVE,
+      bundling: {
+        externalModules: ['aws-sdk'],
+        sourceMap: true,
+      },
     })
 
     const certificate = new Certificate(this, 'Certificate', {
