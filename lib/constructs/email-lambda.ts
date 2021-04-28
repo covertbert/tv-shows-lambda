@@ -23,7 +23,6 @@ export class EmailLambda extends Construct {
       entry: './lambda/handlers/email.ts',
       functionName: 'email-lambda',
       runtime: Runtime.NODEJS_12_X,
-      handler: 'email.handler',
       timeout: Duration.seconds(30),
       memorySize: 256,
       role: lambdaRole,
