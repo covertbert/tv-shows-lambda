@@ -12,3 +12,4 @@ esbuild
 esbuild.json
 coverage
 cdk.context.json
+.stryker-tmp
