@@ -81,6 +81,13 @@ jobs:
       - name: Run mutation tests
         run: yarn stryker
 
+      - name: Upload test report artifacts
+        uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: test-reports
+          path: build/reports
+
   deploy:
     name: 🛳 Deploy Stack via CDK
     needs: [run-tests, run-quality-checks]
