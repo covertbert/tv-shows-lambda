@@ -35,7 +35,7 @@
     "@typescript-eslint/eslint-plugin": "^4.22.0",
     "@typescript-eslint/parser": "^4.19.0",
     "aws-cdk": "1.100.0",
-    "esbuild": "^0.11.15",
+    "esbuild": "^0.11.16",
     "eslint": "^7.25.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-jest": "^24.3.6",
@@ -52,7 +52,7 @@
   },
   "dependencies": {
     "aws-sdk": "^2.894.0",
-    "date-fns": "^2.19.0",
+    "date-fns": "^2.21.1",
     "node-fetch": "^2.6.1"
   }
 }
