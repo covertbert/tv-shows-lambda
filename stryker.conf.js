@@ -4,7 +4,7 @@
  */
 module.exports = {
   files: ['*.js', '*.json', 'lambda/**/*.ts'],
-  mutate: ['lambda/**/*.ts', '!**/*.test.ts', '!lambda/constants'],
+  mutate: ['lambda/**/*.ts', '!**/*.test.ts', '!lambda/constants/**/*.ts'],
   testRunner: 'jest',
   coverageAnalysis: 'off',
   packageManager: 'yarn',
