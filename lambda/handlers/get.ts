@@ -59,7 +59,7 @@ export const handler = async (
   } catch (error) {
     return {
       statusCode: 500,
-      body: JSON.stringify('Internal server error'),
+      body: JSON.stringify(error.message),
     }
   }
 }

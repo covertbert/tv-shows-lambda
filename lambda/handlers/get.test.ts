@@ -25,7 +25,7 @@ describe('handler', () => {
   it('returns an error when an API key is missing', async () => {
     const response = await handler(mockAPIGatewayProxyEvent)
 
-    expect(response.body).toEqual('"Internal server error"')
+    expect(response.body).toEqual('"Movie DB API key missing"')
   })
 
   it('calls getShowsWithDetails with correct inputs', async () => {
