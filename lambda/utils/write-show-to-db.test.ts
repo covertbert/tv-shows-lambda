@@ -4,7 +4,7 @@ import { writeShowToDB } from '.'
 
 jest.mock('aws-sdk')
 
-const dynamoMock = (DynamoDB as unknown) as jest.Mock
+const dynamoMock = DynamoDB as unknown as jest.Mock
 
 afterEach(() => {
   dynamoMock.mockClear()

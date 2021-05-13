@@ -28,7 +28,7 @@ describe('getShowsWithDetails', () => {
   })
 
   it('throws an error when API request fails', async () => {
-    ;((fetch as unknown) as jest.Mock).mockImplementation(() => {
+    ;(fetch as unknown as jest.Mock).mockImplementation(() => {
       throw new Error()
     })
 
