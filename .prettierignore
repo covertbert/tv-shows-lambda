@@ -8,3 +8,6 @@ yarn.lock
 cdk.out
 .npmignore
 coverage
+dist
+build
+*.sh

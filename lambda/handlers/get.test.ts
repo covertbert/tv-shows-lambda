@@ -62,9 +62,9 @@ describe('handler', () => {
   it('returns the correct shows and totalCount when given some params', async () => {
     process.env.DATABASE_API_KEY = expectedApiKey
 
-    const params = ({
+    const params = {
       queryStringParameters: { withRecentEpisodes: 'true' },
-    } as unknown) as APIGatewayProxyEventV2
+    } as unknown as APIGatewayProxyEventV2
 
     const response = await handler(params)
 
