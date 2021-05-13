@@ -1,4 +1,4 @@
-import { handler, filterEmails } from './email'
+import { handler } from './email'
 import { getShowsWithDetails, hasNewEpisode, sendEmail, generateMessageBody } from '../utils'
 
 import { TV_SHOWS, BASE_URL } from '../constants'
@@ -72,27 +72,5 @@ describe('handler', () => {
     await handler()
 
     expect(generateMessageBody).toHaveBeenCalledWith([mockTvShow])
-  })
-})
-
-describe('filterEmails', () => {
-  it('only returns the first email when showsWithRecentEpisodes length is zero or less', () => {
-    const inputs = 'email1@email.com,email2@email.com'
-    const expectedResults = ['email1@email.com']
-
-    const mockShowsWithRecentEpisodes: ShowsWithDetails = []
-
-    expect(filterEmails(inputs, mockShowsWithRecentEpisodes)).toEqual(expectedResults)
-  })
-
-  it('only returns both emails when showsWithRecentEpisodes length is more than zero', () => {
-    const inputs = 'email1@email.com,email2@email.com'
-    const expectedResults = ['email1@email.com', 'email2@email.com']
-
-    const mockShowsWithRecentEpisodes: ShowsWithDetails = [
-      { lastAirDate: '2012-11-21', name: 'Mr Bean' },
-    ]
-
-    expect(filterEmails(inputs, mockShowsWithRecentEpisodes)).toEqual(expectedResults)
   })
 })
