@@ -2,7 +2,6 @@ import { handler } from './email'
 import { getShowsWithDetails, hasNewEpisode, sendEmail, generateMessageBody } from '../utils'
 
 import { TV_SHOWS, BASE_URL } from '../constants'
-import { ShowsWithDetails } from '../types'
 
 const mockTvShow = { lastAirDate: '2012-03-23', name: 'Mr Bean' }
 
@@ -12,6 +11,10 @@ jest.mock('../utils', () => ({
   sendEmail: jest.fn(),
   generateMessageBody: jest.fn(),
 }))
+
+beforeEach(() => {
+  jest.clearAllMocks()
+})
 
 describe('handler', () => {
   const expectedEmails = 'dog@cat.com,cat@cat.com'
@@ -53,7 +56,7 @@ describe('handler', () => {
     expect(hasNewEpisode).toHaveBeenCalledWith(mockTvShow.lastAirDate)
   })
 
-  it('calls sendEmail with correct inputs', async () => {
+  it('does calls sendEmail with correct inputs when showsWithRecentEpisodes > 0', async () => {
     process.env.DATABASE_API_KEY = expectedApiKey
     process.env.RECIPIENT_EMAILS = expectedEmails
 
@@ -63,6 +66,16 @@ describe('handler', () => {
       generateMessageBody([mockTvShow]),
       expectedEmails.split(','),
     )
+  })
+
+  it('does not call sendEmail when showsWithRecentEpisodes < 1', async () => {
+    process.env.DATABASE_API_KEY = expectedApiKey
+    process.env.RECIPIENT_EMAILS = expectedEmails
+    ;(hasNewEpisode as jest.Mock).mockReturnValueOnce(false)
+
+    await handler()
+
+    expect(sendEmail).not.toHaveBeenCalled()
   })
 
   it('calls generateMessageBody with correct inputs', async () => {

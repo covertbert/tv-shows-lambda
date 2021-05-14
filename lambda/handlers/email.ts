@@ -21,7 +21,9 @@ export const handler: Handler = async () => {
       hasNewEpisode(show.lastAirDate),
     )
 
-    await sendEmail(generateMessageBody(showsWithRecentEpisodes), recipientEmails.split(','))
+    if (showsWithRecentEpisodes.length > 0) {
+      await sendEmail(generateMessageBody(showsWithRecentEpisodes), recipientEmails.split(','))
+    }
   } catch (error) {
     throw new Error(error)
   }
