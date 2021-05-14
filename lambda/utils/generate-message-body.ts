@@ -12,10 +12,8 @@ export const generateMessageBody: GenerateMessageBody = shows => {
     return `${someShows[0].name} has new episodes.`
   }
 
-  const firstItem = someShows.filter((_, index) => index === 0)
+  const firstItem = someShows[0]
   const restOfItems = someShows.filter((_, index) => index !== 0)
 
-  return `${restOfItems.map(show => show.name).join(', ')} & ${
-    firstItem[0].name
-  } have new episodes.`
+  return `${restOfItems.map(show => show.name).join(', ')} & ${firstItem.name} have new episodes.`
 }
