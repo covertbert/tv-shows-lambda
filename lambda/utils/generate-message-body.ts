@@ -13,7 +13,7 @@ export const generateMessageBody: GenerateMessageBody = shows => {
   }
 
   const firstItem = someShows[0]
-  const restOfItems = someShows.filter((_, index) => index !== 0)
+  const [, ...restOfItems] = someShows
 
   return `${restOfItems.map(show => show.name).join(', ')} & ${firstItem.name} have new episodes.`
 }
