@@ -12,6 +12,6 @@ module.exports = {
   htmlReporter: { baseDir: 'build/reports/stryker' },
   tsconfigFile: 'tsconfig.json',
   timeoutMS: 60000,
-  thresholds: { high: 100, low: 95, break: 95 },
+  thresholds: { high: 100, low: 99.5, break: 99 },
   disableTypeChecks: 'lambda/**/*.ts',
 }
