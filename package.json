@@ -54,7 +54,7 @@
     "typescript": "~4.2.4"
   },
   "dependencies": {
-    "aws-sdk": "^2.913.0",
+    "aws-sdk": "^2.914.0",
     "date-fns": "^2.21.3",
     "node-fetch": "^2.6.1"
   }
