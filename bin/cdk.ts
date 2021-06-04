@@ -20,7 +20,7 @@ if (!recipientEmails) {
   throw new Error('Missing recipient email addresses')
 }
 
-new TvShowsLambdaStack(app, 'TvShowsLambdaStack', {
+new TvShowsLambdaStack(app, 'tv-shows-lambda-stack', {
   apiKey,
   recipientEmails,
   versionFromGitHubActions: versionFromGitHubActions || 'local',
