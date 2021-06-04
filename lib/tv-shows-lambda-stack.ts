@@ -1,4 +1,4 @@
-import { Stack, App, StackProps, Tags } from '@aws-cdk/core'
+import { Stack, App, StackProps, Tags, RemovalPolicy } from '@aws-cdk/core'
 import { Role, ServicePrincipal, PolicyStatement, ManagedPolicy } from '@aws-cdk/aws-iam'
 import { Table, AttributeType } from '@aws-cdk/aws-dynamodb'
 
@@ -21,10 +21,12 @@ export class TvShowsLambdaStack extends Stack {
     Tags.of(this).add('env', 'prod')
     Tags.of(this).add('version', versionFromGitHubActions)
 
-    new Table(this, 'Table', {
+    const table = new Table(this, 'Table', {
       tableName: 'TVShowsTable',
       partitionKey: { name: 'id', type: AttributeType.STRING },
     })
+
+    table.applyRemovalPolicy(RemovalPolicy.DESTROY)
 
     const lambdaRole = new Role(this, 'ExecutionRole', {
       assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
