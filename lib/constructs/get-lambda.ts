@@ -1,4 +1,4 @@
-import { Construct, StackProps, Duration } from '@aws-cdk/core'
+import { Construct, StackProps, Duration, RemovalPolicy } from '@aws-cdk/core'
 import { NodejsFunction } from '@aws-cdk/aws-lambda-nodejs'
 import { Runtime, Tracing } from '@aws-cdk/aws-lambda'
 import {
@@ -52,6 +52,7 @@ export class GetLambda extends Construct {
 
     const prodLogGroup = new LogGroup(this, 'ProdLogs', {
       logGroupName: '/api-gateway/tv-shows-api',
+      removalPolicy: RemovalPolicy.DESTROY,
     })
 
     new CfnSubscriptionFilter(this, 'LogsSubscriptionFilter', {
