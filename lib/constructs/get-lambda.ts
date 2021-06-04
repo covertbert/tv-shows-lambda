@@ -12,7 +12,7 @@ import { ARecord, RecordTarget, PublicHostedZone } from '@aws-cdk/aws-route53'
 import { ApiGateway } from '@aws-cdk/aws-route53-targets'
 import { Certificate, ValidationMethod } from '@aws-cdk/aws-certificatemanager'
 import { Role } from '@aws-cdk/aws-iam'
-import { LogGroup, CfnSubscriptionFilter } from '@aws-cdk/aws-logs'
+import { LogGroup } from '@aws-cdk/aws-logs'
 
 interface ExtendedStackProps extends StackProps {
   lambdaRole: Role
@@ -53,13 +53,6 @@ export class GetLambda extends Construct {
     const prodLogGroup = new LogGroup(this, 'ProdLogs', {
       logGroupName: '/api-gateway/tv-shows-api',
       removalPolicy: RemovalPolicy.DESTROY,
-    })
-
-    new CfnSubscriptionFilter(this, 'LogsSubscriptionFilter', {
-      logGroupName: '/api-gateway/tv-shows-api',
-      filterPattern: '',
-      destinationArn:
-        'arn:aws:lambda:eu-west-2:515213366596:function:datadog-integration-ForwarderStack-JEQLS-Forwarder-1IA2LYZ68W844',
     })
 
     const api = new RestApi(this, 'TVShowsAPI', {
