@@ -75,4 +75,8 @@ export const TV_SHOWS: Shows = [
     name: 'Big Little Lies',
     id: '66292',
   },
+  {
+    name: 'Gomorrah',
+    id: '61068',
+  },
 ]
