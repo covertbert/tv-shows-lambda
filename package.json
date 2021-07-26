@@ -33,12 +33,12 @@
     "@stryker-mutator/jest-runner": "^4.5.1",
     "@types/aws-lambda": "^8.10.80",
     "@types/jest": "^26.0.24",
-    "@types/node": "16.4.1",
+    "@types/node": "16.4.3",
     "@types/node-fetch": "^2.5.12",
     "@typescript-eslint/eslint-plugin": "^4.28.4",
     "@typescript-eslint/parser": "^4.28.4",
     "aws-cdk": "1.103.0",
-    "esbuild": "^0.12.15",
+    "esbuild": "^0.12.16",
     "eslint": "^7.31.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-jest": "^24.4.0",
@@ -54,7 +54,7 @@
     "typescript": "~4.3.5"
   },
   "dependencies": {
-    "aws-sdk": "^2.951.0",
+    "aws-sdk": "^2.953.0",
     "date-fns": "^2.23.0",
     "node-fetch": "^2.6.1"
   }
