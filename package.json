@@ -31,7 +31,7 @@
     "@aws-cdk/core": "1.103.0",
     "@stryker-mutator/core": "^4.5.1",
     "@stryker-mutator/jest-runner": "^4.5.1",
-    "@types/aws-lambda": "^8.10.80",
+    "@types/aws-lambda": "^8.10.81",
     "@types/jest": "^26.0.24",
     "@types/node": "16.4.1",
     "@types/node-fetch": "^2.5.12",
