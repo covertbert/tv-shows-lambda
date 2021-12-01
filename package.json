@@ -55,7 +55,7 @@
   },
   "dependencies": {
     "aws-sdk": "^2.1039.0",
-    "date-fns": "^2.26.0",
+    "date-fns": "^2.27.0",
     "node-fetch": "^2.6.1"
   }
 }
