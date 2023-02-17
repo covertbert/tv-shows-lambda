@@ -30,7 +30,7 @@
     "@aws-cdk/aws-route53-targets": "1.103.0",
     "@aws-cdk/core": "1.103.0",
     "@stryker-mutator/core": "^6.3.1",
-    "@stryker-mutator/jest-runner": "^6.3.1",
+    "@stryker-mutator/jest-runner": "^6.4.0",
     "@types/aws-lambda": "^8.10.110",
     "@types/jest": "^27.5.0",
     "@types/node": "18.13.0",
