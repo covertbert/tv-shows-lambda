@@ -17,7 +17,7 @@
     "lint": "eslint --ignore-path .gitignore . --ext ts --ext tsx --ext js"
   },
   "devDependencies": {
-    "@aws-cdk/assert": "1.103.0",
+    "@aws-cdk/assert": "2.68.0",
     "@aws-cdk/aws-apigateway": "1.103.0",
     "@aws-cdk/aws-certificatemanager": "1.103.0",
     "@aws-cdk/aws-dynamodb": "1.103.0",
