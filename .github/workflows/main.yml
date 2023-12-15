@@ -82,7 +82,7 @@ jobs:
         run: yarn stryker
 
       - name: Upload test report artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: test-reports
